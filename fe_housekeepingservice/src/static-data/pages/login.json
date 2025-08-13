@@ -15,7 +15,12 @@
     "actions": {
       "login": "Đăng nhập",
       "logging_in": "Đang đăng nhập...",
-      "forgot_password": "Quên mật khẩu?"
+      "forgot_password": "Quên mật khẩu?",
+      "google_login": "Đăng nhập với Google",
+      "remember_me": "Ghi nhớ đăng nhập"
+    },
+    "divider": {
+      "text": "Hoặc tiếp tục với"
     },
     "messages": {
       "validation": {
@@ -24,7 +29,10 @@
         "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự"
       },
       "no_account": "Chưa có tài khoản?",
-      "register_link": "Đăng ký ngay"
+      "register_link": "Đăng ký ngay",
+      "login_success": "Đăng nhập thành công!",
+      "login_error": "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.",
+      "google_error": "Đăng nhập Google thất bại. Vui lòng thử lại."
     }
   },
   "en": {
@@ -43,7 +51,12 @@
     "actions": {
       "login": "Login",
       "logging_in": "Logging in...",
-      "forgot_password": "Forgot password?"
+      "forgot_password": "Forgot password?",
+      "google_login": "Sign in with Google",
+      "remember_me": "Remember me"
+    },
+    "divider": {
+      "text": "Or continue with"
     },
     "messages": {
       "validation": {
@@ -52,7 +65,10 @@
         "password_min_length": "Password must be at least 6 characters"
       },
       "no_account": "Don't have an account?",
-      "register_link": "Sign up"
+      "register_link": "Sign up",
+      "login_success": "Login successful!",
+      "login_error": "Login failed. Please check your credentials.",
+      "google_error": "Google sign in failed. Please try again."
     }
   }
 }

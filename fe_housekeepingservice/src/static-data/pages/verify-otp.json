@@ -1,7 +1,7 @@
 {
   "vi": {
     "title": "Xác nhận OTP",
-    "subtitle": "Nhập mã xác nhận đã được gửi đến",
+    "subtitle": "Nhập mã xác nhận 6 chữ số đã được gửi đến",
     "form": {
       "otp_instruction": "Nhập mã gồm 6 chữ số",
       "timer_text": "Gửi lại mã sau",
@@ -11,20 +11,31 @@
       "verify": "Xác nhận",
       "verifying": "Đang xác nhận...",
       "resend": "Gửi lại mã",
-      "resending": "Đang gửi lại..."
+      "resending": "Đang gửi lại...",
+      "back_to_login": "Quay lại đăng nhập",
+      "change_email": "Thay đổi email"
     },
     "messages": {
       "validation": {
         "otp_required": "Vui lòng nhập đầy đủ mã OTP",
-        "otp_invalid": "Mã OTP không hợp lệ"
+        "otp_invalid": "Mã OTP không hợp lệ",
+        "otp_expired": "Mã OTP đã hết hạn"
       },
       "didnt_receive": "Không nhận được mã?",
-      "back_to_login": "Quay lại đăng nhập"
+      "check_spam": "Kiểm tra thư mục spam",
+      "success": "Xác nhận thành công!",
+      "error": "Xác nhận thất bại. Vui lòng thử lại.",
+      "resend_success": "Mã đã được gửi lại",
+      "resend_error": "Gửi lại thất bại. Vui lòng thử lại sau."
+    },
+    "info": {
+      "expiry_time": "Mã sẽ hết hạn sau 5 phút",
+      "max_attempts": "Bạn có tối đa 3 lần thử"
     }
   },
   "en": {
     "title": "Verify OTP",
-    "subtitle": "Enter the verification code sent to",
+    "subtitle": "Enter the 6-digit verification code sent to",
     "form": {
       "otp_instruction": "Enter 6-digit code",
       "timer_text": "Resend code in",
@@ -33,16 +44,27 @@
     "actions": {
       "verify": "Verify",
       "verifying": "Verifying...",
-      "resend": "Resend code",
-      "resending": "Resending..."
+      "resend": "Resend Code",
+      "resending": "Resending...",
+      "back_to_login": "Back to Login",
+      "change_email": "Change Email"
     },
     "messages": {
       "validation": {
-        "otp_required": "Please enter complete OTP code",
-        "otp_invalid": "Invalid OTP code"
+        "otp_required": "Please enter the complete OTP code",
+        "otp_invalid": "Invalid OTP code",
+        "otp_expired": "OTP code has expired"
       },
-      "didnt_receive": "Didn't receive code?",
-      "back_to_login": "Back to login"
+      "didnt_receive": "Didn't receive the code?",
+      "check_spam": "Check spam folder",
+      "success": "Verification successful!",
+      "error": "Verification failed. Please try again.",
+      "resend_success": "Code has been resent",
+      "resend_error": "Resend failed. Please try again later."
+    },
+    "info": {
+      "expiry_time": "Code expires in 5 minutes",
+      "max_attempts": "You have maximum 3 attempts"
     }
   }
 }
