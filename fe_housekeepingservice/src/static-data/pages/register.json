@@ -1,0 +1,104 @@
+{
+  "vi": {
+    "title": "Đăng ký",
+    "subtitle": "Tạo tài khoản mới",
+    "form": {
+      "username": {
+        "label": "Tên đăng nhập",
+        "placeholder": "Nhập tên đăng nhập"
+      },
+      "full_name": {
+        "label": "Họ và tên",
+        "placeholder": "Nhập họ và tên"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Nhập email"
+      },
+      "phone_number": {
+        "label": "Số điện thoại",
+        "placeholder": "Nhập số điện thoại"
+      },
+      "password": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu"
+      },
+      "confirm_password": {
+        "label": "Xác nhận mật khẩu",
+        "placeholder": "Nhập lại mật khẩu"
+      }
+    },
+    "actions": {
+      "register": "Đăng ký",
+      "registering": "Đang đăng ký..."
+    },
+    "messages": {
+      "validation": {
+        "username_required": "Tên đăng nhập là bắt buộc",
+        "username_min_length": "Tên đăng nhập phải có ít nhất 3 ký tự",
+        "full_name_required": "Họ và tên là bắt buộc",
+        "email_required": "Email là bắt buộc",
+        "email_invalid": "Email không hợp lệ",
+        "phone_required": "Số điện thoại là bắt buộc",
+        "phone_invalid": "Số điện thoại không hợp lệ",
+        "password_required": "Mật khẩu là bắt buộc",
+        "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
+        "confirm_password_required": "Xác nhận mật khẩu là bắt buộc",
+        "passwords_not_match": "Mật khẩu không khớp"
+      },
+      "have_account": "Đã có tài khoản?",
+      "login_link": "Đăng nhập ngay"
+    }
+  },
+  "en": {
+    "title": "Register",
+    "subtitle": "Create new account",
+    "form": {
+      "username": {
+        "label": "Username",
+        "placeholder": "Enter username"
+      },
+      "full_name": {
+        "label": "Full Name",
+        "placeholder": "Enter full name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter email"
+      },
+      "phone_number": {
+        "label": "Phone Number",
+        "placeholder": "Enter phone number"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter password"
+      },
+      "confirm_password": {
+        "label": "Confirm Password",
+        "placeholder": "Confirm password"
+      }
+    },
+    "actions": {
+      "register": "Register",
+      "registering": "Registering..."
+    },
+    "messages": {
+      "validation": {
+        "username_required": "Username is required",
+        "username_min_length": "Username must be at least 3 characters",
+        "full_name_required": "Full name is required",
+        "email_required": "Email is required",
+        "email_invalid": "Invalid email",
+        "phone_required": "Phone number is required",
+        "phone_invalid": "Invalid phone number",
+        "password_required": "Password is required",
+        "password_min_length": "Password must be at least 6 characters",
+        "confirm_password_required": "Confirm password is required",
+        "passwords_not_match": "Passwords do not match"
+      },
+      "have_account": "Already have an account?",
+      "login_link": "Login"
+    }
+  }
+}

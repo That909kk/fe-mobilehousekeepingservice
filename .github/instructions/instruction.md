@@ -26,7 +26,7 @@ Xây dựng hệ thống đa nền tảng (Web, Mobile) phục vụ:
 ## Quy tắc code
 - Nếu là Web app thì vào /fe_housekeepingservice để viết code và tuân thủ theo file react.instruction.md
 - Nếu là Mobile app thì vào /mobile_housekeepingservice để viết code và tuân thủ file reactnative.instruction.md
-- Phải có sự nhất quán và đồng bộ tính năng và UI/UX giữa Web-app và mobile-app
+- Phải có sự nhất quán và đồng bộ tính năng giữa fe_housekeepingservice và mobile_housekeepingservice
 - Đảm bảo clean code, dễ đọc, chia nhỏ đúng cách để dễ dàng bảo trì
 - Đảm bảo không có bất kỳ lỗi syntax 
 - Đảm bảo không có bất kỳ lỗi nào trước khi chạy thử để test

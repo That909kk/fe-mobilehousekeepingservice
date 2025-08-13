@@ -1,0 +1,48 @@
+{
+  "vi": {
+    "title": "Xác nhận OTP",
+    "subtitle": "Nhập mã xác nhận đã được gửi đến",
+    "form": {
+      "otp_instruction": "Nhập mã gồm 6 chữ số",
+      "timer_text": "Gửi lại mã sau",
+      "seconds": "giây"
+    },
+    "actions": {
+      "verify": "Xác nhận",
+      "verifying": "Đang xác nhận...",
+      "resend": "Gửi lại mã",
+      "resending": "Đang gửi lại..."
+    },
+    "messages": {
+      "validation": {
+        "otp_required": "Vui lòng nhập đầy đủ mã OTP",
+        "otp_invalid": "Mã OTP không hợp lệ"
+      },
+      "didnt_receive": "Không nhận được mã?",
+      "back_to_login": "Quay lại đăng nhập"
+    }
+  },
+  "en": {
+    "title": "Verify OTP",
+    "subtitle": "Enter the verification code sent to",
+    "form": {
+      "otp_instruction": "Enter 6-digit code",
+      "timer_text": "Resend code in",
+      "seconds": "seconds"
+    },
+    "actions": {
+      "verify": "Verify",
+      "verifying": "Verifying...",
+      "resend": "Resend code",
+      "resending": "Resending..."
+    },
+    "messages": {
+      "validation": {
+        "otp_required": "Please enter complete OTP code",
+        "otp_invalid": "Invalid OTP code"
+      },
+      "didnt_receive": "Didn't receive code?",
+      "back_to_login": "Back to login"
+    }
+  }
+}

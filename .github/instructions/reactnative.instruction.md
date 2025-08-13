@@ -38,8 +38,19 @@
 - API call: axios + interceptor
 - Hỗ trợ đa ngôn ngữ (i18n) nếu mở rộng
 - Đảm bảo đồng bộ giữa Android và IOS
-- Đảm bảo tính bộ của các chức năng với web
+- Đảm bảo tính bộ của các chức năng với fe_housekeepingservice
 - Query cache + `expo-sqlite` (nếu cần dữ liệu cục bộ).
-
+- Mỗi lần chỉ thực hiện 1 câu lệnh để import các dependencies cần thiết(sử dụng ; thay cho && )
+- Đảm bảo không có bất kỳ lỗi và Problems nào trước khi chạy thử để test 
+## Static-data JSON (quy ước)
+```json
+{
+  "vi": {
+    "title": "Trang dịch vụ",
+    "actions": { "book": "Đặt dịch vụ", "consult": "Tư vấn" },
+    "messages": { "empty": "Không có dữ liệu" }
+  },
+  "en": { "title": "Services Page", "actions": { "book": "Book" } }
+}
 ## Testing
 - Jest + React Native Testing Library

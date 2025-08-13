@@ -1,5 +1,5 @@
 # Hướng dẫn Phát triển Frontend Web (React 19 + Vite + TypeScript)
-
+**Vai trò:** Expert Software Engineer — *trả lời bằng Tiếng Việt.*
 ## Cấu trúc dự án
 - `public/`  
   - File tĩnh không qua quá trình build, phục vụ trực tiếp (favicon, manifest, robots.txt).  
@@ -45,7 +45,20 @@
 - Sử dụng React Query hoặc RTK Query cho API call
 - UI tuân thủ design system được mô tả trong file detail
 - Đảm bảo sự scale giữa các màn hình khác nhau
-- Đảm bảo sự đồng bộ các tính năng với mobile 
+- Đảm bảo sự đồng bộ các tính năng với mobile_housekeepingservice
+- Mỗi lần chỉ thực hiện 1 câu lệnh để import các dependencies cần thiết(sử dụng ; thay cho && )
+- Đảm bảo không có bất kỳ lỗi và Problems nào trước khi chạy thử để test
+- Có thể sử sử dụng tailwind css hoặc tương đương
 ## API Call
 - Sử dụng endpoint từ API contract đã thống nhất
 - Error handling tập trung (Global error boundary)
+## Static-data JSON (quy ước)
+```json
+{
+  "vi": {
+    "title": "Trang dịch vụ",
+    "actions": { "book": "Đặt dịch vụ", "consult": "Tư vấn" },
+    "messages": { "empty": "Không có dữ liệu" }
+  },
+  "en": { "title": "Services Page", "actions": { "book": "Book" } }
+}
