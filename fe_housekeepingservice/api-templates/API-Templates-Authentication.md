@@ -6,7 +6,7 @@ They integrate with the **`accounts`** table and support **role-based access con
 ---
 ## Base URL
 ```
-/api/v1/auth
+/api/auth
 ```
 ---
 ## 1. Register
@@ -20,29 +20,38 @@ Create a new account.
   "full_name": "John Doe",
   "email": "john@example.com",
   "phone_number": "+84123456789",
-  "roles": "customer"
+  "role": "CUSTOMER"
 }
 ```
 
 ### Response (201 Created)
 ```json
 {
-  "message": "Account created successfully",
-  "account": {
-    "account_id": 1,
+  "success": true,
+  "message": "Registration successful",
+  "data": {
     "username": "john_doe",
-    "roles": "customer",
-    "status": "active",
-    "created_at": "2025-08-13T10:15:30Z"
+    "email": "john@example.com",
+    "role": "CUSTOMER"
   }
 }
 ```
 
 ### Response (400 Bad Request)
 ```json
-{ "error": "Username already exists" }
+{
+  "success": false,
+  "message": "Username already exists"
+}
 ```
 
+### Response (500 Internal Server Error)
+```json
+{
+"success": false,
+"message": "Registration failed"
+}
+```
 ---
 
 ## 2. Login
@@ -53,30 +62,84 @@ Authenticate and receive tokens.
 ```json
 {
   "username": "john_doe",
-  "password": "P@ssw0rd!"
+  "password": "P@ssw0rd!",
+  "role": "CUSTOMER"
 }
 ```
 
 ### Response (200 OK)
+
 ```json
 {
-  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...",
-  "refresh_token": "dGhpc2lzYXJlZnJlc2h0b2tlbg==",
-  "expires_in": 3600,
-  "roles": "customer"
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...",
+    "refresh_token": "dGhpc2lzYXJlZnJlc2h0b2tlbg==",
+    "expire_in": 3600,
+    "role": "CUSTOMER",
+    "data": {
+      "username": "john_doe",
+      "full_name": "John Doe",
+      "email": "john@example.com",
+      "phoneNumber": "+84123456789",
+      "is_male": true,
+      "status": "active",
+      "address": "123 Main St, City, Country"
+    }
+  }
+}
+```
+### Response (200 OK) - Employee
+```json
+{
+  "success": true,
+  "message": "Login successful",
+  "data": {
+    "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6Ikp...",
+    "refresh_token": "dGhpc2lzYXJlZnJlc2h0b2tlbg==",
+    "expire_in": 3600,
+    "role": "EMPLOYEE",
+    "data": {
+      "username": "john_doe",
+      "full_name": "John Doe",
+      "email": "john@example.com",
+      "phoneNumber": "+84123456789",
+      "is_male": true,
+      "status": "active",
+      "address": "123 Main St, City, Country",
+      "hire_date": "2023-01-01"
+    }
+  }
 }
 ```
 
 ### Response (401 Unauthorized)
 ```json
-{ "error": "Invalid username or password" }
+{
+  "success": false,
+  "message": "Invalid credentials"
+}
 ```
 
+### Response (400 Bad Request)
+
+```json
+{
+"success": false,
+"message": "Username is required"
+}
+```
 ---
 
 ## 3. Refresh Token
 **POST** `/refresh`  
 Get a new access token using the refresh token.
+
+Headers
+```
+Authorization: Bearer <access_token>
+```
 
 ### Request
 ```json
@@ -86,8 +149,10 @@ Get a new access token using the refresh token.
 ### Response (200 OK)
 ```json
 {
+  "success": true,
+  "message": "Token refreshed successfully",
   "access_token": "newAccessTokenHere",
-  "expires_in": 3600
+  "expire_in": 3600
 }
 ```
 
@@ -102,6 +167,11 @@ Get a new access token using the refresh token.
 **POST** `/logout`  
 Invalidate refresh token.
 
+Headers
+```
+Authorization: Bearer <access_token>
+```
+
 ### Request
 ```json
 { "refresh_token": "dGhpc2lzYXJlZnJlc2h0b2tlbg==" }
@@ -109,12 +179,65 @@ Invalidate refresh token.
 
 ### Response (200 OK)
 ```json
-{ "message": "Successfully logged out" }
+{
+  "success": true,
+  "message": "Logout successful"
+}
+```
+
+### Response (400 Bad Request)
+```json
+{
+  "success": false,
+  "message": "Authorization header is required"
+}
+```
+
+### Response (500 Internal Server Error)
+```json
+{
+  "success": false,
+  "message": "Logout failed"
+}
+```
+---
+
+## 5. validate-token
+GET /validate-token Validate if the current token is still valid.
+
+Headers
+```
+Authorization: Bearer <access_token>
+```
+
+### Response (200 OK)
+```json
+{
+  "success": true,
+  "message": "Token is valid",
+  "valid": true
+}
+```
+
+### Response (401 Unauthorized)
+```json
+{
+  "success": false,
+  "message": "Token is invalid",
+  "valid": false
+}
+```
+
+### Response (400 Bad Request)
+```json
+{
+  "success": false,
+  "message": "Authorization header is required"
+}
 ```
 
 ---
-
-## 5. Get Current User
+## 6. Get Current User (!Not done yet)
 **GET** `/me`  
 Return current user's profile.
 
