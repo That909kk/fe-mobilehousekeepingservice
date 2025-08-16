@@ -84,8 +84,9 @@ Authenticate and receive tokens.
       "email": "john@example.com",
       "phoneNumber": "+84123456789",
       "is_male": true,
-      "status": "active",
-      "address": "123 Main St, City, Country"
+      "status": "ACTIVE",
+      "address": "123 Main St, City, Country",
+      "avatar": "link to avatar"	
     }
   }
 }
