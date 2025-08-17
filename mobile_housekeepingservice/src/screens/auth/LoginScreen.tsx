@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,7 @@ import {
   Platform,
   Alert,
   Image,
+  TextInput,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackNavigationProp } from '@react-navigation/stack';
@@ -33,6 +34,10 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [rememberMe, setRememberMe] = useState(false);
+  
+  // Refs for input fields
+  const usernameRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
   
   const { login, loading, error } = useAuth();
   const { data: staticData } = useStaticData('login');
@@ -170,9 +175,13 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
                   autoCapitalize="none"
                   error={errors.username}
                   leftIcon="person"
+                  returnKeyType="next"
+                  onSubmitEditing={() => passwordRef.current?.focus()}
+                  blurOnSubmit={false}
                 />
 
                 <Input
+                  ref={passwordRef}
                   label={staticData.form.password.label}
                   value={formData.password}
                   onChangeText={(value) => handleInputChange('password', value)}
@@ -180,6 +189,8 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
                   secureTextEntry
                   error={errors.password}
                   leftIcon="lock-closed"
+                  returnKeyType="done"
+                  onSubmitEditing={handleLogin}
                 />
 
                 {error && (
@@ -189,21 +200,25 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
                   </View>
                 )}
 
-                <Button
-                  title={loading ? staticData.actions.logging_in : staticData.actions.login}
-                  onPress={handleLogin}
-                  loading={loading}
-                  gradient={true}
-                  fullWidth
-                  size="large"
-                />
+                <View style={styles.buttonContainer}>
+                  <Button
+                    title={loading ? staticData.actions.logging_in : staticData.actions.login}
+                    onPress={handleLogin}
+                    loading={loading}
+                    gradient={true}
+                    fullWidth
+                    size="large"
+                  />
+                </View>
 
-                <Button
-                  title={staticData.actions.forgot_password}
-                  onPress={() => navigation.navigate('ForgotPassword')}
-                  variant="ghost"
-                  fullWidth
-                />
+                <View style={styles.buttonContainer}>
+                  <Button
+                    title={staticData.actions.forgot_password}
+                    onPress={() => navigation.navigate('ForgotPassword')}
+                    variant="ghost"
+                    fullWidth
+                  />
+                </View>
               </View>
             </View>
 
@@ -331,6 +346,9 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 8,
+  },
+  buttonContainer: {
+    marginBottom: 16,
   },
   errorContainer: {
     flexDirection: 'row',

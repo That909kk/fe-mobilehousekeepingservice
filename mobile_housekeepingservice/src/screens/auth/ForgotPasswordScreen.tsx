@@ -122,20 +122,24 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
               </View>
             )}
 
-            <Button
-              title={loading ? staticData.actions.sending : staticData.actions.send_otp}
-              onPress={handleSendOTP}
-              loading={loading}
-              fullWidth
-              size="large"
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={loading ? staticData.actions.sending : staticData.actions.send_otp}
+                onPress={handleSendOTP}
+                loading={loading}
+                fullWidth
+                size="large"
+              />
+            </View>
 
-            <Button
-              title={staticData.actions.back_to_login}
-              onPress={() => navigation.navigate('Login')}
-              variant="outline"
-              fullWidth
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={staticData.actions.back_to_login}
+                onPress={() => navigation.navigate('Login')}
+                variant="outline"
+                fullWidth
+              />
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -178,6 +182,9 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginBottom: 24,
+  },
+  buttonContainer: {
+    marginBottom: 16,
   },
   errorContainer: {
     marginBottom: 16,

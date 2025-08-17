@@ -145,20 +145,24 @@ export const ResetPasswordScreen: React.FC<Props> = ({ navigation, route }) => {
               </View>
             )}
 
-            <Button
-              title={loading ? staticData.actions.resetting : staticData.actions.reset}
-              onPress={handleResetPassword}
-              loading={loading}
-              fullWidth
-              size="large"
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={loading ? staticData.actions.resetting : staticData.actions.reset}
+                onPress={handleResetPassword}
+                loading={loading}
+                fullWidth
+                size="large"
+              />
+            </View>
 
-            <Button
-              title={staticData.actions.back_to_login}
-              onPress={() => navigation.navigate('Login')}
-              variant="outline"
-              fullWidth
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={staticData.actions.back_to_login}
+                onPress={() => navigation.navigate('Login')}
+                variant="outline"
+                fullWidth
+              />
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -201,6 +205,9 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginBottom: 24,
+  },
+  buttonContainer: {
+    marginBottom: 16,
   },
   errorContainer: {
     marginBottom: 16,

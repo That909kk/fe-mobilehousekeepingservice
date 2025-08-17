@@ -173,28 +173,34 @@ export const VerifyOTPScreen: React.FC<Props> = ({ navigation, route }) => {
               </View>
             )}
 
-            <Button
-              title={loading ? staticData.actions.verifying : staticData.actions.verify}
-              onPress={handleVerifyOTP}
-              loading={loading}
-              fullWidth
-              size="large"
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={loading ? staticData.actions.verifying : staticData.actions.verify}
+                onPress={handleVerifyOTP}
+                loading={loading}
+                fullWidth
+                size="large"
+              />
+            </View>
 
-            <Button
-              title={loading ? staticData.actions.resending : staticData.actions.resend}
-              onPress={handleResendOTP}
-              variant="outline"
-              fullWidth
-              disabled={countdown > 0 || loading}
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={loading ? staticData.actions.resending : staticData.actions.resend}
+                onPress={handleResendOTP}
+                variant="outline"
+                fullWidth
+                disabled={countdown > 0 || loading}
+              />
+            </View>
 
-            <Button
-              title={staticData.actions.back}
-              onPress={() => navigation.goBack()}
-              variant="outline"
-              fullWidth
-            />
+            <View style={styles.buttonContainer}>
+              <Button
+                title={staticData.actions.back}
+                onPress={() => navigation.goBack()}
+                variant="outline"
+                fullWidth
+              />
+            </View>
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
@@ -243,6 +249,9 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     marginBottom: 24,
+  },
+  buttonContainer: {
+    marginBottom: 16,
   },
   countdownContainer: {
     alignItems: 'center',

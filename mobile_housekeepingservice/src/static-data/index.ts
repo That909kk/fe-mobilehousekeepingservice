@@ -6,6 +6,7 @@ import verifyOtpData from './pages/verify-otp.json';
 import resetPasswordData from './pages/reset-password.json';
 import changePasswordData from './pages/change-password.json';
 import dashboardData from './pages/dashboard.json';
+import termsConditionsData from './terms_conditions.json';
 
 // Create a registry of all static data
 export const staticDataRegistry = {
@@ -16,6 +17,7 @@ export const staticDataRegistry = {
   'reset-password': resetPasswordData,
   'change-password': changePasswordData,
   'dashboard': dashboardData,
+  'terms_conditions': termsConditionsData,
 } as const;
 
 export type StaticDataPageName = keyof typeof staticDataRegistry;

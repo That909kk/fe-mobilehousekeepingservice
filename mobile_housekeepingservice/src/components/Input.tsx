@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { COLORS, UI } from '../constants';
@@ -18,9 +18,12 @@ interface InputProps {
   leftIcon?: string;
   rightIcon?: string;
   onRightIconPress?: () => void;
+  onSubmitEditing?: () => void;
+  returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
+  blurOnSubmit?: boolean;
 }
 
-export const Input: React.FC<InputProps> = ({
+export const Input = forwardRef<TextInput, InputProps>(({
   label,
   value,
   onChangeText,
@@ -35,7 +38,10 @@ export const Input: React.FC<InputProps> = ({
   leftIcon,
   rightIcon,
   onRightIconPress,
-}) => {
+  onSubmitEditing,
+  returnKeyType = 'done',
+  blurOnSubmit = true,
+}, ref) => {
   const [isFocused, setIsFocused] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(!secureTextEntry);
 
@@ -104,6 +110,7 @@ export const Input: React.FC<InputProps> = ({
         )}
         
         <TextInput
+          ref={ref}
           style={getInputStyle()}
           value={value}
           onChangeText={onChangeText}
@@ -117,6 +124,9 @@ export const Input: React.FC<InputProps> = ({
           onBlur={() => setIsFocused(false)}
           multiline={multiline}
           numberOfLines={numberOfLines}
+          onSubmitEditing={onSubmitEditing}
+          returnKeyType={returnKeyType}
+          blurOnSubmit={blurOnSubmit}
         />
         
         {(rightIcon || secureTextEntry) && (
@@ -137,7 +147,7 @@ export const Input: React.FC<InputProps> = ({
       {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   container: {

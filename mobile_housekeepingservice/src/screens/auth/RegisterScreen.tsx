@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
@@ -8,12 +8,13 @@ import {
   Platform,
   Alert,
   TouchableOpacity,
+  TextInput,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Button, Input, Select } from '../../components';
+import { Button, Input, Select, Checkbox, TermsModal } from '../../components';
 import { useAuth } from '../../hooks/useAuth';
 import { useStaticData } from '../../hooks/useStaticData';
 import { COLORS, UI, VALIDATION } from '../../constants';
@@ -37,6 +38,15 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [acceptTerms, setAcceptTerms] = useState(false);
+  const [showTermsModal, setShowTermsModal] = useState(false);
+  
+  // Refs for input fields
+  const fullNameRef = useRef<TextInput>(null);
+  const usernameRef = useRef<TextInput>(null);
+  const emailRef = useRef<TextInput>(null);
+  const phoneNumberRef = useRef<TextInput>(null);
+  const passwordRef = useRef<TextInput>(null);
+  const confirmPasswordRef = useRef<TextInput>(null);
   
   const { register, loading, error } = useAuth();
   const { data: staticData } = useStaticData('register');
@@ -184,15 +194,20 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
             />
 
             <Input
+              ref={fullNameRef}
               label={staticData.form.fullName.label}
               value={formData.fullName}
               onChangeText={(value) => handleInputChange('fullName', value)}
               placeholder={staticData.form.fullName.placeholder}
               error={errors.fullName}
               leftIcon="person"
+              returnKeyType="next"
+              onSubmitEditing={() => usernameRef.current?.focus()}
+              blurOnSubmit={false}
             />
 
             <Input
+              ref={usernameRef}
               label={staticData.form.username.label}
               value={formData.username}
               onChangeText={(value) => handleInputChange('username', value)}
@@ -200,9 +215,13 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
               autoCapitalize="none"
               error={errors.username}
               leftIcon="at"
+              returnKeyType="next"
+              onSubmitEditing={() => emailRef.current?.focus()}
+              blurOnSubmit={false}
             />
 
             <Input
+              ref={emailRef}
               label={staticData.form.email.label}
               value={formData.email}
               onChangeText={(value) => handleInputChange('email', value)}
@@ -211,9 +230,13 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
               autoCapitalize="none"
               error={errors.email}
               leftIcon="mail"
+              returnKeyType="next"
+              onSubmitEditing={() => phoneNumberRef.current?.focus()}
+              blurOnSubmit={false}
             />
 
             <Input
+              ref={phoneNumberRef}
               label={staticData.form.phoneNumber.label}
               value={formData.phoneNumber}
               onChangeText={(value) => handleInputChange('phoneNumber', value)}
@@ -221,9 +244,13 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
               keyboardType="phone-pad"
               error={errors.phoneNumber}
               leftIcon="call"
+              returnKeyType="next"
+              onSubmitEditing={() => passwordRef.current?.focus()}
+              blurOnSubmit={false}
             />
 
             <Input
+              ref={passwordRef}
               label={staticData.form.password.label}
               value={formData.password}
               onChangeText={(value) => handleInputChange('password', value)}
@@ -231,9 +258,13 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
               secureTextEntry
               error={errors.password}
               leftIcon="lock-closed"
+              returnKeyType="next"
+              onSubmitEditing={() => confirmPasswordRef.current?.focus()}
+              blurOnSubmit={false}
             />
 
             <Input
+              ref={confirmPasswordRef}
               label={staticData.form.confirm_password.label}
               value={formData.confirmPassword}
               onChangeText={(value) => handleInputChange('confirmPassword', value)}
@@ -241,9 +272,30 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
               secureTextEntry
               error={errors.confirmPassword}
               leftIcon="lock-closed"
+              returnKeyType="done"
+              onSubmitEditing={handleRegister}
             />
 
-            {/* Terms acceptance would go here */}
+            {/* Terms and Conditions Checkbox */}
+            <View style={styles.termsContainer}>
+              <Checkbox
+                checked={acceptTerms}
+                onPress={() => setAcceptTerms(!acceptTerms)}
+                style={styles.checkbox}
+              />
+              <View style={styles.termsTextContainer}>
+                <Text style={styles.termsText}>
+                  {staticData.actions.agree_terms}{' '}
+                  <Text 
+                    style={styles.termsLinkText}
+                    onPress={() => setShowTermsModal(true)}
+                  >
+                    {staticData.actions.terms_link}
+                  </Text>
+                </Text>
+              </View>
+            </View>
+            
             {errors.terms && (
               <Text style={styles.errorText}>{errors.terms}</Text>
             )}
@@ -258,6 +310,7 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
               title={loading ? staticData.actions.registering : staticData.actions.register}
               onPress={handleRegister}
               loading={loading}
+              disabled={loading || !acceptTerms}
               fullWidth
               size="large"
             />
@@ -275,6 +328,13 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         </ScrollView>
       </KeyboardAvoidingView>
+      
+      {/* Terms and Conditions Modal */}
+      <TermsModal
+        visible={showTermsModal}
+        onClose={() => setShowTermsModal(false)}
+        onAgree={() => setAcceptTerms(true)}
+      />
     </SafeAreaView>
   );
 };
@@ -333,5 +393,29 @@ const styles = StyleSheet.create({
   footerText: {
     color: COLORS.text.secondary,
     fontSize: 14,
+  },
+  termsContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 16,
+    paddingHorizontal: 4,
+  },
+  checkbox: {
+    marginTop: 2,
+  },
+  termsTextContainer: {
+    flex: 1,
+    marginLeft: 8,
+  },
+  termsText: {
+    fontSize: 14,
+    color: COLORS.text.secondary,
+    lineHeight: 20,
+  },
+  termsLinkText: {
+    color: COLORS.primary,
+    textDecorationLine: 'underline',
+    fontSize: 14,
+    lineHeight: 20,
   },
 });
