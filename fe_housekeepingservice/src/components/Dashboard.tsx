@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { authService } from '../services/authService';
+import { useStaticData, getNestedValue } from '../shared/hooks/useStaticData';
+import { useLanguage } from '../shared/hooks/useLanguage';
+import LanguageSwitcher from '../shared/components/LanguageSwitcher';
 import type { User } from '../types/auth';
 
 const Dashboard: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { language } = useLanguage();
+  const { data: staticData, loading: staticLoading } = useStaticData('dashboard', language);
 
   useEffect(() => {
     const loadUserData = async () => {
@@ -43,7 +48,7 @@ const Dashboard: React.FC = () => {
     }
   };
 
-  if (isLoading) {
+  if (isLoading || staticLoading) {
     return (
       <div style={{ 
         display: 'flex', 
@@ -51,13 +56,18 @@ const Dashboard: React.FC = () => {
         alignItems: 'center', 
         height: '100vh' 
       }}>
-        <div>Đang tải...</div>
+        <div>{getNestedValue(staticData, 'loading', 'Loading...')}</div>
       </div>
     );
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
+    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', position: 'relative' }}>
+      {/* Language Switcher */}
+      <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
+        <LanguageSwitcher />
+      </div>
+      
       <div style={{ 
         background: 'white', 
         borderRadius: '8px', 
@@ -70,7 +80,9 @@ const Dashboard: React.FC = () => {
           alignItems: 'center', 
           marginBottom: '30px' 
         }}>
-          <h1 style={{ margin: 0, color: '#333' }}>Dashboard</h1>
+          <h1 style={{ margin: 0, color: '#333' }}>
+            {getNestedValue(staticData, 'title', 'Dashboard')}
+          </h1>
           <button 
             onClick={handleLogout}
             style={{
@@ -82,7 +94,7 @@ const Dashboard: React.FC = () => {
               cursor: 'pointer'
             }}
           >
-            Đăng xuất
+            {getNestedValue(staticData, 'actions.logout', 'Logout')}
           </button>
         </div>
 
@@ -93,15 +105,17 @@ const Dashboard: React.FC = () => {
             borderRadius: '6px',
             marginBottom: '20px'
           }}>
-            <h2 style={{ marginTop: 0, color: '#333' }}>Thông tin tài khoản</h2>
+            <h2 style={{ marginTop: 0, color: '#333' }}>
+              {getNestedValue(staticData, 'user_info.title', 'Account Information')}
+            </h2>
             <div style={{ display: 'grid', gap: '10px' }}>
-              <div><strong>ID:</strong> {user.account_id}</div>
-              <div><strong>Tên đăng nhập:</strong> {user.username}</div>
-              <div><strong>Họ tên:</strong> {user.full_name}</div>
-              <div><strong>Email:</strong> {user.email}</div>
-              <div><strong>Số điện thoại:</strong> {user.phone_number}</div>
-              <div><strong>Vai trò:</strong> {user.roles}</div>
-              <div><strong>Trạng thái:</strong> {user.status}</div>
+              <div><strong>{getNestedValue(staticData, 'user_info.fields.id', 'ID')}:</strong> {user.account_id}</div>
+              <div><strong>{getNestedValue(staticData, 'user_info.fields.username', 'Username')}:</strong> {user.username}</div>
+              <div><strong>{getNestedValue(staticData, 'user_info.fields.full_name', 'Full Name')}:</strong> {user.full_name}</div>
+              <div><strong>{getNestedValue(staticData, 'user_info.fields.email', 'Email')}:</strong> {user.email}</div>
+              <div><strong>{getNestedValue(staticData, 'user_info.fields.phone', 'Phone Number')}:</strong> {user.phone_number}</div>
+              <div><strong>{getNestedValue(staticData, 'user_info.fields.roles', 'Roles')}:</strong> {user.roles}</div>
+              <div><strong>{getNestedValue(staticData, 'user_info.fields.status', 'Status')}:</strong> {user.status}</div>
             </div>
           </div>
         )}
@@ -113,10 +127,10 @@ const Dashboard: React.FC = () => {
           textAlign: 'center'
         }}>
           <h3 style={{ margin: '0 0 10px 0', color: '#27ae60' }}>
-            Chào mừng bạn đến với Housekeeping Service!
+            {getNestedValue(staticData, 'welcome.title', 'Welcome to Housekeeping Service!')}
           </h3>
           <p style={{ margin: 0, color: '#666' }}>
-            Bạn đã đăng nhập thành công vào hệ thống.
+            {getNestedValue(staticData, 'welcome.subtitle', 'You have successfully logged into the system.')}
           </p>
         </div>
       </div>

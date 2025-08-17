@@ -3,19 +3,28 @@
     "title": "Đăng ký",
     "subtitle": "Tạo tài khoản mới để bắt đầu",
     "form": {
+      "role": {
+        "label": "Vai trò",
+        "placeholder": "Chọn vai trò của bạn",
+        "options": {
+          "customer": "Khách hàng",
+          "employee": "Nhân viên",
+          "admin": "Quản trị viên"
+        }
+      },
+      "fullName": {
+        "label": "Họ và tên",
+        "placeholder": "Nhập họ và tên"
+      },
       "username": {
         "label": "Tên đăng nhập",
         "placeholder": "Nhập tên đăng nhập"
-      },
-      "full_name": {
-        "label": "Họ và tên",
-        "placeholder": "Nhập họ và tên"
       },
       "email": {
         "label": "Email",
         "placeholder": "Nhập email"
       },
-      "phone_number": {
+      "phoneNumber": {
         "label": "Số điện thoại",
         "placeholder": "Nhập số điện thoại"
       },
@@ -26,10 +35,6 @@
       "confirm_password": {
         "label": "Xác nhận mật khẩu",
         "placeholder": "Nhập lại mật khẩu"
-      },
-      "role": {
-        "label": "Vai trò",
-        "placeholder": "Chọn vai trò của bạn"
       }
     },
     "actions": {
@@ -52,15 +57,20 @@
     },
     "messages": {
       "validation": {
+        "role_required": "Vai trò là bắt buộc",
+        "fullName_required": "Họ và tên là bắt buộc",
+        "fullName_invalid": "Họ và tên chỉ được chứa chữ cái và khoảng trắng",
+        "fullName_max_length": "Họ và tên không được vượt quá 100 ký tự",
         "username_required": "Tên đăng nhập là bắt buộc",
-        "username_min_length": "Tên đăng nhập phải có ít nhất 3 ký tự",
-        "full_name_required": "Họ và tên là bắt buộc",
+        "username_length": "Tên đăng nhập phải có từ 3-50 ký tự",
+        "username_invalid": "Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới",
         "email_required": "Email là bắt buộc",
         "email_invalid": "Email không hợp lệ",
-        "phone_required": "Số điện thoại là bắt buộc",
-        "phone_invalid": "Số điện thoại không hợp lệ",
+        "email_max_length": "Email không được vượt quá 255 ký tự",
+        "phoneNumber_required": "Số điện thoại là bắt buộc",
+        "phoneNumber_invalid": "Số điện thoại không hợp lệ",
         "password_required": "Mật khẩu là bắt buộc",
-        "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
+        "password_length": "Mật khẩu phải có từ 6-100 ký tự",
         "confirm_password_required": "Xác nhận mật khẩu là bắt buộc",
         "passwords_not_match": "Mật khẩu không khớp",
         "terms_required": "Bạn phải đồng ý với điều khoản sử dụng"
@@ -76,19 +86,28 @@
     "title": "Sign Up",
     "subtitle": "Create a new account to get started",
     "form": {
+      "role": {
+        "label": "Role",
+        "placeholder": "Select your role",
+        "options": {
+          "customer": "Customer",
+          "employee": "Employee",
+          "admin": "Admin"
+        }
+      },
+      "fullName": {
+        "label": "Full Name",
+        "placeholder": "Enter your full name"
+      },
       "username": {
         "label": "Username",
         "placeholder": "Enter your username"
-      },
-      "full_name": {
-        "label": "Full Name",
-        "placeholder": "Enter your full name"
       },
       "email": {
         "label": "Email",
         "placeholder": "Enter your email"
       },
-      "phone_number": {
+      "phoneNumber": {
         "label": "Phone Number",
         "placeholder": "Enter your phone number"
       },
@@ -99,10 +118,6 @@
       "confirm_password": {
         "label": "Confirm Password",
         "placeholder": "Confirm your password"
-      },
-      "role": {
-        "label": "Role",
-        "placeholder": "Select your role"
       }
     },
     "actions": {
@@ -125,15 +140,20 @@
     },
     "messages": {
       "validation": {
+        "role_required": "Role is required",
+        "fullName_required": "Full name is required",
+        "fullName_invalid": "Full name can only contain letters and spaces",
+        "fullName_max_length": "Full name cannot exceed 100 characters",
         "username_required": "Username is required",
-        "username_min_length": "Username must be at least 3 characters",
-        "full_name_required": "Full name is required",
+        "username_length": "Username must be 3-50 characters",
+        "username_invalid": "Username can only contain letters, numbers and underscores",
         "email_required": "Email is required",
         "email_invalid": "Email is invalid",
-        "phone_required": "Phone number is required",
-        "phone_invalid": "Phone number is invalid",
+        "email_max_length": "Email cannot exceed 255 characters",
+        "phoneNumber_required": "Phone number is required",
+        "phoneNumber_invalid": "Phone number is invalid",
         "password_required": "Password is required",
-        "password_min_length": "Password must be at least 6 characters",
+        "password_length": "Password must be 6-100 characters",
         "confirm_password_required": "Confirm password is required",
         "passwords_not_match": "Passwords do not match",
         "terms_required": "You must agree to the terms of service"

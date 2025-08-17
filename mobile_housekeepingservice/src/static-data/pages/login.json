@@ -1,0 +1,82 @@
+{
+  "vi": {
+    "title": "Đăng nhập",
+    "subtitle": "Chào mừng bạn quay trở lại",
+    "form": {
+      "role": {
+        "label": "Vai trò",
+        "options": {
+          "customer": "Khách hàng",
+          "employee": "Nhân viên",
+          "admin": "Quản trị viên"
+        }
+      },
+      "username": {
+        "label": "Tên đăng nhập",
+        "placeholder": "Nhập tên đăng nhập"
+      },
+      "password": {
+        "label": "Mật khẩu",
+        "placeholder": "Nhập mật khẩu"
+      }
+    },
+    "actions": {
+      "login": "Đăng nhập",
+      "logging_in": "Đang đăng nhập...",
+      "forgot_password": "Quên mật khẩu?",
+      "remember_me": "Ghi nhớ đăng nhập"
+    },
+    "messages": {
+      "validation": {
+        "username_required": "Tên đăng nhập là bắt buộc",
+        "password_required": "Mật khẩu là bắt buộc",
+        "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
+        "role_required": "Vai trò là bắt buộc"
+      },
+      "no_account": "Chưa có tài khoản?",
+      "register_link": "Đăng ký ngay",
+      "login_success": "Đăng nhập thành công!",
+      "login_error": "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin."
+    }
+  },
+  "en": {
+    "title": "Login",
+    "subtitle": "Welcome back",
+    "form": {
+      "role": {
+        "label": "Role",
+        "options": {
+          "customer": "Customer",
+          "employee": "Employee",
+          "admin": "Admin"
+        }
+      },
+      "username": {
+        "label": "Username",
+        "placeholder": "Enter your username"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      }
+    },
+    "actions": {
+      "login": "Login",
+      "logging_in": "Logging in...",
+      "forgot_password": "Forgot password?",
+      "remember_me": "Remember me"
+    },
+    "messages": {
+      "validation": {
+        "username_required": "Username is required",
+        "password_required": "Password is required",
+        "password_min_length": "Password must be at least 6 characters",
+        "role_required": "Role is required"
+      },
+      "no_account": "Don't have an account?",
+      "register_link": "Sign up",
+      "login_success": "Login successful!",
+      "login_error": "Login failed. Please check your credentials."
+    }
+  }
+}

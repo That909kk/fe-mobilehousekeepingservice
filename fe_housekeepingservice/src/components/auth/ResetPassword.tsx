@@ -3,17 +3,20 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import type { ResetPasswordRequest } from '../../types/auth';
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
+import { useLanguage } from '../../shared/hooks/useLanguage';
+import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
 
 const ResetPassword: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: staticData, loading: staticLoading } = useStaticData('reset-password');
+  const { language } = useLanguage();
+  const { data: staticData, loading: staticLoading } = useStaticData('reset-password', language);
   const email = location.state?.email || '';
   const otp = location.state?.otp || '';
 
   const [formData, setFormData] = useState({
-    new_password: '',
-    confirm_password: ''
+    newPassword: '',
+    confirmPassword: ''
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
@@ -52,18 +55,18 @@ const ResetPassword: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.new_password) {
-      newErrors.new_password = 'Mật khẩu mới không được để trống';
-    } else if (formData.new_password.length < 6) {
-      newErrors.new_password = 'Mật khẩu phải có ít nhất 6 ký tự';
-    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.new_password)) {
-      newErrors.new_password = 'Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường và 1 số';
+    if (!formData.newPassword) {
+      newErrors.newPassword = 'Mật khẩu mới không được để trống';
+    } else if (formData.newPassword.length < 6) {
+      newErrors.newPassword = 'Mật khẩu phải có ít nhất 6 ký tự';
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/.test(formData.newPassword)) {
+      newErrors.newPassword = 'Mật khẩu phải có ít nhất 1 chữ hoa, 1 chữ thường và 1 số';
     }
 
-    if (!formData.confirm_password) {
-      newErrors.confirm_password = 'Vui lòng xác nhận mật khẩu mới';
-    } else if (formData.new_password !== formData.confirm_password) {
-      newErrors.confirm_password = 'Mật khẩu xác nhận không khớp';
+    if (!formData.confirmPassword) {
+      newErrors.confirmPassword = 'Vui lòng xác nhận mật khẩu mới';
+    } else if (formData.newPassword !== formData.confirmPassword) {
+      newErrors.confirmPassword = 'Mật khẩu xác nhận không khớp';
     }
 
     setErrors(newErrors);
@@ -80,7 +83,7 @@ const ResetPassword: React.FC = () => {
       const resetData: ResetPasswordRequest = {
         email,
         otp,
-        new_password: formData.new_password
+        newPassword: formData.newPassword
       };
 
       await authService.resetPassword(resetData);
@@ -112,10 +115,15 @@ const ResetPassword: React.FC = () => {
     return { strength: 'Mạnh', color: '#27ae60' };
   };
 
-  const passwordStrength = getPasswordStrength(formData.new_password);
+  const passwordStrength = getPasswordStrength(formData.newPassword);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6">
+        <LanguageSwitcher />
+      </div>
+      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-auth p-8 animate-fade-in">
           <div className="text-center mb-8">
@@ -135,23 +143,23 @@ const ResetPassword: React.FC = () => {
             )}
 
             <div>
-              <label htmlFor="new_password" className="block text-sm font-medium text-gray-700 mb-2">
-                {getNestedValue(staticData, 'form.new_password.label', 'Mật khẩu mới')}
+              <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                {getNestedValue(staticData, 'form.newPassword.label', 'Mật khẩu mới')}
               </label>
               <input
                 type="password"
-                id="new_password"
-                name="new_password"
-                value={formData.new_password}
+                id="newPassword"
+                name="newPassword"
+                value={formData.newPassword}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.new_password ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
-                placeholder={getNestedValue(staticData, 'form.new_password.placeholder', 'Nhập mật khẩu mới')}
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.newPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
+                placeholder={getNestedValue(staticData, 'form.newPassword.placeholder', 'Nhập mật khẩu mới')}
               />
-              {errors.new_password && (
-                <p className="mt-1 text-sm text-red-600">{errors.new_password}</p>
+              {errors.newPassword && (
+                <p className="mt-1 text-sm text-red-600">{errors.newPassword}</p>
               )}
               
-              {formData.new_password && (
+              {formData.newPassword && (
                 <div className="mt-2">
                   <div className={`text-xs px-3 py-1 rounded-full inline-block font-medium ${
                     passwordStrength.color === '#e74c3c' ? 'bg-red-100 text-red-800' :
@@ -165,20 +173,20 @@ const ResetPassword: React.FC = () => {
             </div>
 
             <div>
-              <label htmlFor="confirm_password" className="block text-sm font-medium text-gray-700 mb-2">
-                Xác nhận mật khẩu mới
+              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-2">
+                {getNestedValue(staticData, 'form.confirmPassword.label', 'Xác nhận mật khẩu mới')}
               </label>
               <input
                 type="password"
-                id="confirm_password"
-                name="confirm_password"
-                value={formData.confirm_password}
+                id="confirmPassword"
+                name="confirmPassword"
+                value={formData.confirmPassword}
                 onChange={handleChange}
-                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.confirm_password ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
-                placeholder="Nhập lại mật khẩu mới"
+                className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.confirmPassword ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
+                placeholder={getNestedValue(staticData, 'form.confirmPassword.placeholder', 'Nhập lại mật khẩu mới')}
               />
-              {errors.confirm_password && (
-                <p className="mt-1 text-sm text-red-600">{errors.confirm_password}</p>
+              {errors.confirmPassword && (
+                <p className="mt-1 text-sm text-red-600">{errors.confirmPassword}</p>
               )}
             </div>
 

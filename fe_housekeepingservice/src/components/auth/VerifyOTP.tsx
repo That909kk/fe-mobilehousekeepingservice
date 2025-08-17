@@ -3,11 +3,14 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import type { VerifyOTPRequest } from '../../types/auth';
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
+import { useLanguage } from '../../shared/hooks/useLanguage';
+import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
 
 const VerifyOTP: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { data: staticData, loading: staticLoading } = useStaticData('verify-otp');
+  const { language } = useLanguage();
+  const { data: staticData, loading: staticLoading } = useStaticData('verify-otp', language);
   const email = location.state?.email || '';
   
   const [otp, setOtp] = useState(['', '', '', '', '', '']);
@@ -183,7 +186,12 @@ const VerifyOTP: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6">
+        <LanguageSwitcher />
+      </div>
+      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-auth p-8 animate-fade-in">
           <div className="text-center mb-8">

@@ -1,19 +1,23 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
 import { useLanguage } from '../../shared/hooks/useLanguage';
 import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
+import type { UserRole, DeviceType } from '../../types/auth';
 
 interface LoginForm {
   username: string;
   password: string;
+  role: UserRole;
+  deviceType: DeviceType;
   rememberMe: boolean;
 }
 
 interface LoginErrors {
   username?: string;
   password?: string;
+  role?: string;
   general?: string;
 }
 
@@ -27,6 +31,8 @@ const Login: React.FC = () => {
   const [form, setForm] = useState<LoginForm>({
     username: '',
     password: '',
+    role: 'CUSTOMER',
+    deviceType: 'WEB',
     rememberMe: false
   });
   
@@ -47,12 +53,18 @@ const Login: React.FC = () => {
       newErrors.password = getNestedValue(staticData, 'messages.validation.password_min_length', 'Password must be at least 6 characters');
     }
     
+    if (!form.role) {
+      newErrors.role = getNestedValue(staticData, 'messages.validation.role_required', 'Role is required');
+    }
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value, type, checked } = e.target;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+    
     setForm(prev => ({
       ...prev,
       [name]: type === 'checkbox' ? checked : value
@@ -78,15 +90,13 @@ const Login: React.FC = () => {
     try {
       const response = await authService.login({
         username: form.username,
-        password: form.password
+        password: form.password,
+        role: form.role,
+        deviceType: form.deviceType
       });
       
       // If we get here without error, login was successful
-      if (response.access_token) {
-        // Store tokens
-        localStorage.setItem('access_token', response.access_token);
-        localStorage.setItem('refresh_token', response.refresh_token);
-        
+      if (response.success && response.data?.accessToken) {
         // Show success message briefly
         setTimeout(() => {
           navigate('/dashboard');
@@ -262,6 +272,35 @@ const Login: React.FC = () => {
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
+            {/* Role Field */}
+            <div>
+              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                {getNestedValue(staticData, 'form.role.label', 'Role')}
+              </label>
+              <select
+                id="role"
+                name="role"
+                value={form.role}
+                onChange={handleInputChange}
+                className={`appearance-none relative block w-full px-4 py-3 border ${
+                  errors.role ? 'border-red-300' : 'border-gray-300'
+                } text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-all duration-200`}
+              >
+                <option value="CUSTOMER">
+                  {getNestedValue(staticData, 'form.role.options.customer', 'Customer')}
+                </option>
+                <option value="EMPLOYEE">
+                  {getNestedValue(staticData, 'form.role.options.employee', 'Employee')}
+                </option>
+                <option value="ADMIN">
+                  {getNestedValue(staticData, 'form.role.options.admin', 'Admin')}
+                </option>
+              </select>
+              {errors.role && (
+                <p className="mt-1 text-sm text-red-600">{errors.role}</p>
+              )}
+            </div>
+
             {/* Username Field */}
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">

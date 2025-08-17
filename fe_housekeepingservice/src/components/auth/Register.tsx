@@ -3,18 +3,21 @@ import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
 import type { RegisterRequest } from '../../types/auth';
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
+import { useLanguage } from '../../shared/hooks/useLanguage';
+import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
 
 const Register: React.FC = () => {
   const navigate = useNavigate();
-  const { data: staticData, loading: staticLoading } = useStaticData('register');
+  const { language } = useLanguage();
+  const { data: staticData, loading: staticLoading } = useStaticData('register', language);
   
   const [formData, setFormData] = useState<RegisterRequest>({
     username: '',
     password: '',
-    full_name: '',
+    fullName: '',
     email: '',
-    phone_number: '',
-    roles: 'customer'
+    phoneNumber: '',
+    role: 'CUSTOMER'
   });
   const [confirmPassword, setConfirmPassword] = useState('');
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -32,38 +35,50 @@ const Register: React.FC = () => {
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    if (!formData.full_name) {
-      newErrors.full_name = getNestedValue(staticData, 'messages.validation.full_name_required', 'Họ và tên là bắt buộc');
+    if (!formData.fullName) {
+      newErrors.fullName = getNestedValue(staticData, 'messages.validation.full_name_required', 'Họ và tên là bắt buộc');
+    } else if (!/^[a-zA-Z\s]+$/.test(formData.fullName)) {
+      newErrors.fullName = getNestedValue(staticData, 'messages.validation.full_name_invalid', 'Họ và tên chỉ được chứa chữ cái và khoảng trắng');
+    } else if (formData.fullName.length > 100) {
+      newErrors.fullName = getNestedValue(staticData, 'messages.validation.full_name_max_length', 'Họ và tên không được vượt quá 100 ký tự');
     }
 
     if (!formData.username) {
       newErrors.username = getNestedValue(staticData, 'messages.validation.username_required', 'Tên đăng nhập là bắt buộc');
-    } else if (formData.username.length < 3) {
-      newErrors.username = getNestedValue(staticData, 'messages.validation.username_min_length', 'Tên đăng nhập phải có ít nhất 3 ký tự');
+    } else if (formData.username.length < 3 || formData.username.length > 50) {
+      newErrors.username = getNestedValue(staticData, 'messages.validation.username_length', 'Tên đăng nhập phải có từ 3-50 ký tự');
+    } else if (!/^[a-zA-Z0-9_]+$/.test(formData.username)) {
+      newErrors.username = getNestedValue(staticData, 'messages.validation.username_invalid', 'Tên đăng nhập chỉ được chứa chữ cái, số và dấu gạch dưới');
     }
 
     if (!formData.email) {
       newErrors.email = getNestedValue(staticData, 'messages.validation.email_required', 'Email là bắt buộc');
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
       newErrors.email = getNestedValue(staticData, 'messages.validation.email_invalid', 'Email không hợp lệ');
+    } else if (formData.email.length > 255) {
+      newErrors.email = getNestedValue(staticData, 'messages.validation.email_max_length', 'Email không được vượt quá 255 ký tự');
     }
 
-    if (!formData.phone_number) {
-      newErrors.phone_number = getNestedValue(staticData, 'messages.validation.phone_required', 'Số điện thoại là bắt buộc');
-    } else if (!/^[0-9]{10}$/.test(formData.phone_number)) {
-      newErrors.phone_number = getNestedValue(staticData, 'messages.validation.phone_invalid', 'Số điện thoại không hợp lệ');
+    if (!formData.phoneNumber) {
+      newErrors.phoneNumber = getNestedValue(staticData, 'messages.validation.phone_required', 'Số điện thoại là bắt buộc');
+    } else if (!/^(\+84|84|0)?[0-9]{9}$/.test(formData.phoneNumber.replace(/\s/g, ''))) {
+      newErrors.phoneNumber = getNestedValue(staticData, 'messages.validation.phone_invalid', 'Số điện thoại không hợp lệ');
     }
 
     if (!formData.password) {
       newErrors.password = getNestedValue(staticData, 'messages.validation.password_required', 'Mật khẩu là bắt buộc');
-    } else if (formData.password.length < 6) {
-      newErrors.password = getNestedValue(staticData, 'messages.validation.password_min_length', 'Mật khẩu phải có ít nhất 6 ký tự');
+    } else if (formData.password.length < 6 || formData.password.length > 100) {
+      newErrors.password = getNestedValue(staticData, 'messages.validation.password_length', 'Mật khẩu phải có từ 6-100 ký tự');
     }
 
     if (!confirmPassword) {
       newErrors.confirmPassword = getNestedValue(staticData, 'messages.validation.confirm_password_required', 'Xác nhận mật khẩu là bắt buộc');
     } else if (formData.password !== confirmPassword) {
       newErrors.confirmPassword = getNestedValue(staticData, 'messages.validation.passwords_not_match', 'Mật khẩu không khớp');
+    }
+
+    if (!formData.role) {
+      newErrors.role = getNestedValue(staticData, 'messages.validation.role_required', 'Vai trò là bắt buộc');
     }
 
     setErrors(newErrors);
@@ -119,12 +134,14 @@ const Register: React.FC = () => {
 
     setIsLoading(true);
     try {
-      await authService.register(formData);
-      alert('Đăng ký thành công! Vui lòng đăng nhập.');
-      navigate('/login');
+      const response = await authService.register(formData);
+      if (response.success) {
+        alert(response.message || 'Đăng ký thành công! Vui lòng đăng nhập.');
+        navigate('/login');
+      }
     } catch (error: any) {
       setErrors({
-        general: error.response?.data?.error || 'Đăng ký thất bại. Vui lòng thử lại.'
+        general: error.response?.data?.message || error.message || 'Đăng ký thất bại. Vui lòng thử lại.'
       });
     } finally {
       setIsLoading(false);
@@ -132,7 +149,12 @@ const Register: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
+      {/* Language Switcher */}
+      <div className="absolute top-6 right-6">
+        <LanguageSwitcher />
+      </div>
+      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-lg p-8 animate-fade-in">
           {/* Header */}
@@ -155,22 +177,49 @@ const Register: React.FC = () => {
 
             {/* Form Fields */}
             <div className="space-y-4">
+              {/* Role Selection */}
+              <div>
+                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                  {getNestedValue(staticData, 'form.role.label', 'Vai trò')}
+                </label>
+                <select
+                  id="role"
+                  name="role"
+                  value={formData.role}
+                  onChange={handleChange}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.role ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
+                >
+                  <option value="CUSTOMER">
+                    {getNestedValue(staticData, 'form.role.options.customer', 'Khách hàng')}
+                  </option>
+                  <option value="EMPLOYEE">
+                    {getNestedValue(staticData, 'form.role.options.employee', 'Nhân viên')}
+                  </option>
+                  <option value="ADMIN">
+                    {getNestedValue(staticData, 'form.role.options.admin', 'Quản trị viên')}
+                  </option>
+                </select>
+                {errors.role && (
+                  <p className="mt-1 text-sm text-red-600">{errors.role}</p>
+                )}
+              </div>
+
               {/* Full Name */}
               <div>
-                <label htmlFor="full_name" className="block text-sm font-medium text-gray-700 mb-2">
-                  {getNestedValue(staticData, 'form.full_name.label', 'Họ và tên')}
+                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700 mb-2">
+                  {getNestedValue(staticData, 'form.fullName.label', 'Họ và tên')}
                 </label>
                 <input
                   type="text"
-                  id="full_name"
-                  name="full_name"
-                  value={formData.full_name}
+                  id="fullName"
+                  name="fullName"
+                  value={formData.fullName}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.full_name ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
-                  placeholder={getNestedValue(staticData, 'form.full_name.placeholder', 'Nhập họ và tên')}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.fullName ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
+                  placeholder={getNestedValue(staticData, 'form.fullName.placeholder', 'Nhập họ và tên')}
                 />
-                {errors.full_name && (
-                  <p className="mt-1 text-sm text-red-600">{errors.full_name}</p>
+                {errors.fullName && (
+                  <p className="mt-1 text-sm text-red-600">{errors.fullName}</p>
                 )}
               </div>
 
@@ -214,20 +263,20 @@ const Register: React.FC = () => {
 
               {/* Phone Number */}
               <div>
-                <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700 mb-2">
-                  {getNestedValue(staticData, 'form.phone_number.label', 'Số điện thoại')}
+                <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-2">
+                  {getNestedValue(staticData, 'form.phoneNumber.label', 'Số điện thoại')}
                 </label>
                 <input
                   type="tel"
-                  id="phone_number"
-                  name="phone_number"
-                  value={formData.phone_number}
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={formData.phoneNumber}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.phone_number ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
-                  placeholder={getNestedValue(staticData, 'form.phone_number.placeholder', 'Nhập số điện thoại')}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.phoneNumber ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
+                  placeholder={getNestedValue(staticData, 'form.phoneNumber.placeholder', 'Nhập số điện thoại')}
                 />
-                {errors.phone_number && (
-                  <p className="mt-1 text-sm text-red-600">{errors.phone_number}</p>
+                {errors.phoneNumber && (
+                  <p className="mt-1 text-sm text-red-600">{errors.phoneNumber}</p>
                 )}
               </div>
 
@@ -278,21 +327,28 @@ const Register: React.FC = () => {
 
               {/* Role Selection */}
               <div>
-                <label htmlFor="roles" className="block text-sm font-medium text-gray-700 mb-2">
-                  Vai trò
+                <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
+                  {getNestedValue(staticData, 'form.role.label', 'Vai trò')}
                 </label>
                 <select
-                  id="roles"
-                  name="roles"
-                  value={formData.roles}
+                  id="role"
+                  name="role"
+                  value={formData.role}
                   onChange={handleChange}
-                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.roles ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
+                  className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-primary-500 transition-colors duration-200 ${errors.role ? 'border-red-300 bg-red-50' : 'border-gray-300'}`}
                 >
-                  <option value="customer">Khách hàng</option>
-                  <option value="provider">Nhà cung cấp</option>
+                  <option value="CUSTOMER">
+                    {getNestedValue(staticData, 'form.role.options.customer', 'Khách hàng')}
+                  </option>
+                  <option value="EMPLOYEE">
+                    {getNestedValue(staticData, 'form.role.options.employee', 'Nhân viên')}
+                  </option>
+                  <option value="ADMIN">
+                    {getNestedValue(staticData, 'form.role.options.admin', 'Quản trị viên')}
+                  </option>
                 </select>
-                {errors.roles && (
-                  <p className="mt-1 text-sm text-red-600">{errors.roles}</p>
+                {errors.role && (
+                  <p className="mt-1 text-sm text-red-600">{errors.role}</p>
                 )}
               </div>
             </div>

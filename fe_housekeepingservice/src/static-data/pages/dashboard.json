@@ -1,0 +1,48 @@
+{
+  "vi": {
+    "title": "Bảng điều khiển",
+    "welcome": {
+      "title": "Chào mừng bạn đến với Housekeeping Service!",
+      "subtitle": "Bạn đã đăng nhập thành công vào hệ thống."
+    },
+    "actions": {
+      "logout": "Đăng xuất"
+    },
+    "user_info": {
+      "title": "Thông tin tài khoản",
+      "fields": {
+        "id": "ID",
+        "username": "Tên đăng nhập",
+        "full_name": "Họ tên",
+        "email": "Email",
+        "phone": "Số điện thoại",
+        "roles": "Vai trò",
+        "status": "Trạng thái"
+      }
+    },
+    "loading": "Đang tải..."
+  },
+  "en": {
+    "title": "Dashboard",
+    "welcome": {
+      "title": "Welcome to Housekeeping Service!",
+      "subtitle": "You have successfully logged into the system."
+    },
+    "actions": {
+      "logout": "Logout"
+    },
+    "user_info": {
+      "title": "Account Information",
+      "fields": {
+        "id": "ID",
+        "username": "Username",
+        "full_name": "Full Name",
+        "email": "Email",
+        "phone": "Phone Number",
+        "roles": "Roles",
+        "status": "Status"
+      }
+    },
+    "loading": "Loading..."
+  }
+}
