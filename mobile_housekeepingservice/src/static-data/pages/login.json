@@ -29,6 +29,7 @@
     "messages": {
       "validation": {
         "username_required": "Tên đăng nhập là bắt buộc",
+        "username_min_length": "Tên đăng nhập phải có ít nhất 3 ký tự",
         "password_required": "Mật khẩu là bắt buộc",
         "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
         "role_required": "Vai trò là bắt buộc"
@@ -36,7 +37,20 @@
       "no_account": "Chưa có tài khoản?",
       "register_link": "Đăng ký ngay",
       "login_success": "Đăng nhập thành công!",
-      "login_error": "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin."
+      "login_error": "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.",
+      "loading": "Đang tải...",
+      "alert_success": "Thành công",
+      "alert_error": "Lỗi",
+      "alert_ok": "OK"
+    },
+    "brand": {
+      "name": "CleanHome",
+      "tagline": "Dịch vụ giúp việc gia đình chuyên nghiệp"
+    },
+    "features": {
+      "trusted": "Tin cậy & An toàn",
+      "on_time": "Đúng giờ",
+      "quality": "Chất lượng cao"
     }
   },
   "en": {
@@ -69,6 +83,7 @@
     "messages": {
       "validation": {
         "username_required": "Username is required",
+        "username_min_length": "Username must be at least 3 characters",
         "password_required": "Password is required",
         "password_min_length": "Password must be at least 6 characters",
         "role_required": "Role is required"
@@ -76,7 +91,20 @@
       "no_account": "Don't have an account?",
       "register_link": "Sign up",
       "login_success": "Login successful!",
-      "login_error": "Login failed. Please check your credentials."
+      "login_error": "Login failed. Please check your credentials.",
+      "loading": "Loading...",
+      "alert_success": "Success",
+      "alert_error": "Error",
+      "alert_ok": "OK"
+    },
+    "brand": {
+      "name": "CleanHome",
+      "tagline": "Professional housekeeping service"
+    },
+    "features": {
+      "trusted": "Trusted & Safe",
+      "on_time": "On Time",
+      "quality": "High Quality"
     }
   }
 }

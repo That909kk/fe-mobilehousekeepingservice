@@ -13,7 +13,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
-import { Button, Input, Select } from '../../components';
+import { Button, Input, Select, LanguageSwitcher } from '../../components';
 import { useAuth } from '../../hooks/useAuth';
 import { useStaticData } from '../../hooks/useStaticData';
 import { COLORS, UI, VALIDATION } from '../../constants';
@@ -43,7 +43,7 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
     if (!formData.username.trim()) {
       newErrors.username = staticData?.messages?.validation?.username_required || 'Username is required';
     } else if (formData.username.length < VALIDATION.USERNAME_MIN_LENGTH) {
-      newErrors.username = 'Username must be at least 3 characters';
+      newErrors.username = staticData?.messages?.validation?.username_min_length || 'Username must be at least 3 characters';
     }
     
     if (!formData.password) {
@@ -74,15 +74,15 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
       });
       
       Alert.alert(
-        'Thành công',
+        staticData?.messages?.alert_success || 'Thành công',
         staticData?.messages?.login_success || 'Login successful!',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     } catch (err: any) {
       Alert.alert(
-        'Lỗi',
+        staticData?.messages?.alert_error || 'Lỗi',
         err.message || staticData?.messages?.login_error || 'Login failed',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     }
   };
@@ -131,12 +131,17 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
           >
             {/* Header with Logo and Service Info */}
             <View style={styles.headerContainer}>
+              {/* Language Switcher */}
+              <View style={styles.languageSwitcherContainer}>
+                <LanguageSwitcher size="small" variant="minimal" />
+              </View>
+              
               <View style={styles.logoContainer}>
                 <View style={styles.logoCircle}>
                   <Ionicons name="home" size={40} color={COLORS.primary} />
                 </View>
-                <Text style={styles.brandName}>CleanHome</Text>
-                <Text style={styles.brandTagline}>Dịch vụ giúp việc gia đình chuyên nghiệp</Text>
+                <Text style={styles.brandName}>{staticData?.brand?.name || 'CleanHome'}</Text>
+                <Text style={styles.brandTagline}>{staticData?.brand?.tagline || 'Dịch vụ giúp việc gia đình chuyên nghiệp'}</Text>
               </View>
               
               <View style={styles.welcomeContainer}>
@@ -219,15 +224,15 @@ export const LoginScreen: React.FC<Props> = ({ navigation }) => {
             <View style={styles.featuresContainer}>
               <View style={styles.featureItem}>
                 <Ionicons name="shield-checkmark" size={24} color={COLORS.primary} />
-                <Text style={styles.featureText}>Tin cậy & An toàn</Text>
+                <Text style={styles.featureText}>{staticData?.features?.trusted || 'Tin cậy & An toàn'}</Text>
               </View>
               <View style={styles.featureItem}>
                 <Ionicons name="time" size={24} color={COLORS.primary} />
-                <Text style={styles.featureText}>Đúng giờ</Text>
+                <Text style={styles.featureText}>{staticData?.features?.on_time || 'Đúng giờ'}</Text>
               </View>
               <View style={styles.featureItem}>
                 <Ionicons name="star" size={24} color={COLORS.primary} />
-                <Text style={styles.featureText}>Chất lượng cao</Text>
+                <Text style={styles.featureText}>{staticData?.features?.quality || 'Chất lượng cao'}</Text>
               </View>
             </View>
           </ScrollView>
@@ -260,6 +265,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 32,
     marginTop: 20,
+    position: 'relative',
+  },
+  languageSwitcherContainer: {
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 1,
   },
   logoContainer: {
     alignItems: 'center',

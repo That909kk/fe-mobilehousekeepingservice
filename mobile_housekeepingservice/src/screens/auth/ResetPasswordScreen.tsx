@@ -68,20 +68,20 @@ export const ResetPasswordScreen: React.FC<Props> = ({ navigation, route }) => {
       });
       
       Alert.alert(
-        'Thành công',
+        staticData?.messages?.alert_success || 'Thành công',
         staticData?.messages?.reset_success || 'Password reset successful!',
         [
           {
-            text: 'OK',
+            text: staticData?.messages?.alert_ok || 'OK',
             onPress: () => navigation.navigate('Login'),
           },
         ]
       );
     } catch (err: any) {
       Alert.alert(
-        'Lỗi',
+        staticData?.messages?.alert_error || 'Lỗi',
         err.message || staticData?.messages?.reset_error || 'Password reset failed',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     }
   };

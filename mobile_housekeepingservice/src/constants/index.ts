@@ -6,6 +6,9 @@ export const API_CONFIG = {
   TIMEOUT: 10000,
 };
 
+// Export animation configurations
+export * from './animations';
+
 // Storage Keys
 export const STORAGE_KEYS = {
   ACCESS_TOKEN: 'accessToken',

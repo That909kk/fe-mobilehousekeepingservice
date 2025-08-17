@@ -64,11 +64,11 @@ export const VerifyOTPScreen: React.FC<Props> = ({ navigation, route }) => {
       await verifyOTP({ email, otp: otp.trim() });
       
       Alert.alert(
-        'Thành công',
+        staticData?.messages?.alert_success || 'Thành công',
         staticData?.messages?.verify_success || 'Verification successful!',
         [
           {
-            text: 'OK',
+            text: staticData?.messages?.alert_ok || 'OK',
             onPress: () => {
               if (type === 'forgot-password') {
                 navigation.navigate('ResetPassword', { email });
@@ -81,9 +81,9 @@ export const VerifyOTPScreen: React.FC<Props> = ({ navigation, route }) => {
       );
     } catch (err: any) {
       Alert.alert(
-        'Lỗi',
+        staticData?.messages?.alert_error || 'Lỗi',
         err.message || staticData?.messages?.verify_error || 'Verification failed',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     }
   };
@@ -94,15 +94,15 @@ export const VerifyOTPScreen: React.FC<Props> = ({ navigation, route }) => {
       setCountdown(300); // Reset countdown
       
       Alert.alert(
-        'Thành công',
+        staticData?.messages?.alert_success || 'Thành công',
         staticData?.messages?.resend_success || 'New OTP code sent',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     } catch (err: any) {
       Alert.alert(
-        'Lỗi',
+        staticData?.messages?.alert_error || 'Lỗi',
         err.message || staticData?.messages?.resend_error || 'Failed to resend OTP',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     }
   };

@@ -110,11 +110,11 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
       });
       
       Alert.alert(
-        'Thành công',
+        staticData?.messages?.alert_success || 'Thành công',
         staticData?.messages?.register_success || 'Registration successful!',
         [
           {
-            text: 'OK',
+            text: staticData?.messages?.alert_ok || 'OK',
             onPress: () => navigation.navigate('VerifyOTP', {
               email: formData.email,
               type: 'register',
@@ -124,9 +124,9 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
       );
     } catch (err: any) {
       Alert.alert(
-        'Lỗi',
+        staticData?.messages?.alert_error || 'Lỗi',
         err.message || staticData?.messages?.register_error || 'Registration failed',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     }
   };
@@ -143,9 +143,9 @@ export const RegisterScreen: React.FC<Props> = ({ navigation }) => {
     { label: staticData.form.role.options.employee, value: 'EMPLOYEE' },
     { label: staticData.form.role.options.admin, value: 'ADMIN' },
   ] : [
-    { label: 'Customer', value: 'CUSTOMER' },
-    { label: 'Employee', value: 'EMPLOYEE' },
-    { label: 'Admin', value: 'ADMIN' },
+    { label: staticData?.form?.role?.options?.customer || 'Customer', value: 'CUSTOMER' },
+    { label: staticData?.form?.role?.options?.employee || 'Employee', value: 'EMPLOYEE' },
+    { label: staticData?.form?.role?.options?.admin || 'Admin', value: 'ADMIN' },
   ];
 
   if (!staticData) {

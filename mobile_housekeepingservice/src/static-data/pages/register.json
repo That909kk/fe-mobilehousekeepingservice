@@ -66,7 +66,11 @@
       "have_account": "Đã có tài khoản?",
       "login_link": "Đăng nhập ngay",
       "register_success": "Đăng ký thành công!",
-      "register_error": "Đăng ký thất bại. Vui lòng thử lại."
+      "register_error": "Đăng ký thất bại. Vui lòng thử lại.",
+      "loading": "Đang tải...",
+      "alert_success": "Thành công",
+      "alert_error": "Lỗi",
+      "alert_ok": "OK"
     }
   },
   "en": {
@@ -136,7 +140,11 @@
       "have_account": "Already have an account?",
       "login_link": "Sign in",
       "register_success": "Registration successful!",
-      "register_error": "Registration failed. Please try again."
+      "register_error": "Registration failed. Please try again.",
+      "loading": "Loading...",
+      "alert_success": "Success",
+      "alert_error": "Error",
+      "alert_ok": "OK"
     }
   }
 }

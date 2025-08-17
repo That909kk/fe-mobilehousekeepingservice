@@ -25,7 +25,10 @@
       "resend_success": "Mã OTP mới đã được gửi",
       "resend_error": "Gửi lại mã OTP thất bại",
       "expires_in": "Mã sẽ hết hạn sau",
-      "seconds": "giây"
+      "seconds": "giây",
+      "alert_success": "Thành công",
+      "alert_error": "Lỗi",
+      "alert_ok": "OK"
     }
   },
   "en": {
@@ -54,7 +57,10 @@
       "resend_success": "New OTP code has been sent",
       "resend_error": "Failed to resend OTP code",
       "expires_in": "Code expires in",
-      "seconds": "seconds"
+      "seconds": "seconds",
+      "alert_success": "Success",
+      "alert_error": "Error",
+      "alert_ok": "OK"
     }
   }
 }

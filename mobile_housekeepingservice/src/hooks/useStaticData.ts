@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useLanguage } from './useLanguage';
+import { useLanguageContext } from '../contexts/LanguageContext';
 import { staticDataRegistry, StaticDataPageName } from '../static-data';
 
 interface StaticData {
@@ -16,7 +16,7 @@ export const useStaticData = (pageName: StaticDataPageName): UseStaticDataResult
   const [data, setData] = useState<StaticData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { language } = useLanguage();
+  const { language } = useLanguageContext();
 
   useEffect(() => {
     loadStaticData();
@@ -27,11 +27,13 @@ export const useStaticData = (pageName: StaticDataPageName): UseStaticDataResult
       setLoading(true);
       setError(null);
 
+      console.log(`Loading static data for ${pageName} in language: ${language}`);
+
       // Get static data from registry
       const pageData = staticDataRegistry[pageName];
 
-      if (pageData && pageData[language]) {
-        setData(pageData[language]);
+      if (pageData && pageData[language as keyof typeof pageData]) {
+        setData(pageData[language as keyof typeof pageData]);
       } else {
         // Fallback to Vietnamese if current language not available
         setData(pageData?.vi || pageData);

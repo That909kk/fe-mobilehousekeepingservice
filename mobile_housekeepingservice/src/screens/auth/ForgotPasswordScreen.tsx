@@ -51,11 +51,11 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
       await forgotPassword({ email: email.trim() });
       
       Alert.alert(
-        'Thành công',
+        staticData?.messages?.alert_success || 'Thành công',
         staticData?.messages?.send_success || 'Verification code sent to your email',
         [
           {
-            text: 'OK',
+            text: staticData?.messages?.alert_ok || 'OK',
             onPress: () => navigation.navigate('VerifyOTP', {
               email: email.trim(),
               type: 'forgot-password',
@@ -65,9 +65,9 @@ export const ForgotPasswordScreen: React.FC<Props> = ({ navigation }) => {
       );
     } catch (err: any) {
       Alert.alert(
-        'Lỗi',
+        staticData?.messages?.alert_error || 'Lỗi',
         err.message || staticData?.messages?.send_error || 'Failed to send verification code',
-        [{ text: 'OK' }]
+        [{ text: staticData?.messages?.alert_ok || 'OK' }]
       );
     }
   };

@@ -34,6 +34,9 @@
     "actions": {
       "logout": "Đăng xuất",
       "refresh": "Làm mới"
+    },
+    "messages": {
+      "loading": "Đang tải..."
     }
   },
   "en": {
@@ -71,6 +74,9 @@
     "actions": {
       "logout": "Logout",
       "refresh": "Refresh"
+    },
+    "messages": {
+      "loading": "Loading..."
     }
   }
 }
