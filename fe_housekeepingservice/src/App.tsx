@@ -5,19 +5,27 @@ import Register from './components/auth/Register';
 import ForgotPassword from './components/auth/ForgotPassword';
 import VerifyOTP from './components/auth/VerifyOTP';
 import ResetPassword from './components/auth/ResetPassword';
+import RoleSelector from './components/auth/RoleSelector';
 import Dashboard from './components/Dashboard';
+import Services from './components/Services';
+import PermissionManagement from './components/admin/PermissionManagement';
+import ProtectedRoute from './shared/components/ProtectedRoute';
+import { useAuth } from './shared/hooks/useAuth';
 import './App.css';
-
-// Protected Route component
-const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const token = localStorage.getItem('access_token');
-  return token ? <>{children}</> : <Navigate to="/login" replace />;
-};
 
 // Public Route component (redirect to dashboard if already logged in)
 const PublicRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const token = localStorage.getItem('access_token');
-  return token ? <Navigate to="/dashboard" replace /> : <>{children}</>;
+  const { isAuthenticated, loading } = useAuth();
+  
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-100">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
+  
+  return isAuthenticated ? <Navigate to="/dashboard" replace /> : <>{children}</>;
 };
 
 function App() {
@@ -66,6 +74,10 @@ function App() {
               </PublicRoute>
             } 
           />
+          <Route 
+            path="/role-selector" 
+            element={<RoleSelector />} 
+          />
 
           {/* Protected Routes */}
           <Route 
@@ -73,6 +85,38 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+          
+          {/* Services Route with Permission Check */}
+          <Route 
+            path="/services" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'SERVICE',
+                  action: 'VIEW', 
+                  resource: 'SERVICE_LIST'
+                }}
+              >
+                <Services />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Admin Permission Management Route */}
+          <Route 
+            path="/admin/permissions" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Admin',
+                  action: 'MANAGE', 
+                  resource: 'admin.permission.manage'
+                }}
+              >
+                <PermissionManagement />
               </ProtectedRoute>
             } 
           />

@@ -1,0 +1,40 @@
+{
+  "vi": {
+    "title": "Bảng điều khiển Khách hàng",
+    "welcome": "Chào mừng",
+    "recentBookings": {
+      "title": "Đặt lịch gần đây",
+      "empty": "Chưa có đặt lịch nào"
+    },
+    "stats": {
+      "totalBookings": "Tổng đặt lịch",
+      "pendingBookings": "Đang chờ xác nhận",
+      "favoriteServices": "Dịch vụ yêu thích"
+    },
+    "services": {
+      "title": "Dịch vụ phổ biến"
+    },
+    "quickActions": {
+      "title": "Thao tác nhanh"
+    }
+  },
+  "en": {
+    "title": "Customer Dashboard",
+    "welcome": "Welcome",
+    "recentBookings": {
+      "title": "Recent Bookings",
+      "empty": "No bookings yet"
+    },
+    "stats": {
+      "totalBookings": "Total Bookings",
+      "pendingBookings": "Pending Confirmation",
+      "favoriteServices": "Favorite Services"
+    },
+    "services": {
+      "title": "Popular Services"
+    },
+    "quickActions": {
+      "title": "Quick Actions"
+    }
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "vi": {
+    "title": "Danh mục dịch vụ",
+    "subtitle": "Chọn danh mục dịch vụ phù hợp với nhu cầu của bạn",
+    "actions": {
+      "viewServices": "Xem dịch vụ",
+      "viewAll": "Xem tất cả",
+      "select": "Chọn"
+    },
+    "labels": {
+      "name": "Tên danh mục",
+      "description": "Mô tả",
+      "serviceCount": "Số dịch vụ",
+      "status": "Trạng thái"
+    },
+    "status": {
+      "active": "Đang hoạt động",
+      "inactive": "Ngưng hoạt động"
+    },
+    "messages": {
+      "empty": "Không có danh mục nào",
+      "loading": "Đang tải danh mục...",
+      "error": "Có lỗi xảy ra khi tải dữ liệu",
+      "notFound": "Không tìm thấy danh mục"
+    }
+  },
+  "en": {
+    "title": "Service Categories",
+    "subtitle": "Choose the service category that fits your needs",
+    "actions": {
+      "viewServices": "View Services",
+      "viewAll": "View All",
+      "select": "Select"
+    },
+    "labels": {
+      "name": "Category Name",
+      "description": "Description",
+      "serviceCount": "Service Count",
+      "status": "Status"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "messages": {
+      "empty": "No categories available",
+      "loading": "Loading categories...",
+      "error": "Error loading data",
+      "notFound": "Category not found"
+    }
+  }
+}

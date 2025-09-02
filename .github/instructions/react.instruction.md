@@ -49,6 +49,7 @@
 - Mỗi lần chỉ thực hiện 1 câu lệnh để import các dependencies cần thiết(sử dụng ; thay cho && )
 - Đảm bảo không có bất kỳ lỗi và Problems nào trước khi chạy thử để test
 - Có thể sử sử dụng tailwind css hoặc tương đương
+- Khi muốn gọi API vào /api-templates/{Tên Tính Năng}/*.md để xem cấu trúc API
 ## API Call
 - Sử dụng endpoint từ API contract đã thống nhất
 - Error handling tập trung (Global error boundary)

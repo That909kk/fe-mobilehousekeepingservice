@@ -4,7 +4,6 @@ import { authService } from '../../services/authService';
 import type { ForgotPasswordRequest } from '../../types/auth';
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
 import { useLanguage } from '../../shared/hooks/useLanguage';
-import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
 
 const ForgotPassword: React.FC = () => {
   const { language } = useLanguage();
@@ -63,9 +62,10 @@ const ForgotPassword: React.FC = () => {
     try {
       await authService.forgotPassword(formData);
       setIsSuccess(true);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Có lỗi xảy ra';
       setErrors({
-        general: error.response?.data?.error || 'Có lỗi xảy ra'
+        general: errorMessage
       });
     } finally {
       setIsLoading(false);
@@ -124,12 +124,7 @@ const ForgotPassword: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
-      {/* Language Switcher */}
-      <div className="absolute top-6 right-6">
-        <LanguageSwitcher />
-      </div>
-      
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-auth p-8 animate-fade-in">
           <div className="text-center mb-8">

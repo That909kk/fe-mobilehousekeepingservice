@@ -1,6 +1,29 @@
 {
   "vi": {
     "title": "Bảng điều khiển",
+    "header": {
+      "navigation": {
+        "home": "Trang chủ",
+        "menu_toggle": "Mở menu",
+        "admin_suffix": "(ADMIN)"
+      },
+      "search": {
+        "placeholder": "Tìm kiếm..."
+      },
+      "user": {
+        "greeting": "Xin chào",
+        "roles": {
+          "customer": "Khách hàng",
+          "employee": "Nhân viên", 
+          "admin": "Quản trị viên"
+        }
+      },
+      "dropdown": {
+        "profile": "Thông tin cá nhân",
+        "settings": "Cài đặt",
+        "logout": "Đăng xuất"
+      }
+    },
     "welcome": {
       "title": "Chào mừng bạn đến với Housekeeping Service!",
       "subtitle": "Bạn đã đăng nhập thành công vào hệ thống."
@@ -24,6 +47,29 @@
   },
   "en": {
     "title": "Dashboard",
+    "header": {
+      "navigation": {
+        "home": "Home",
+        "menu_toggle": "Open menu",
+        "admin_suffix": "(ADMIN)"
+      },
+      "search": {
+        "placeholder": "Search..."
+      },
+      "user": {
+        "greeting": "Hello",
+        "roles": {
+          "customer": "Customer",
+          "employee": "Employee",
+          "admin": "Administrator"
+        }
+      },
+      "dropdown": {
+        "profile": "Profile",
+        "settings": "Settings",
+        "logout": "Logout"
+      }
+    },
     "welcome": {
       "title": "Welcome to Housekeeping Service!",
       "subtitle": "You have successfully logged into the system."

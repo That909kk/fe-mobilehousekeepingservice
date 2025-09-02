@@ -1,0 +1,88 @@
+{
+  "vi": {
+    "title": "Quản lý phân quyền",
+    "subtitle": "Quản lý quyền truy cập cho các vai trò người dùng trong hệ thống",
+    "roles": {
+      "title": "Chọn vai trò để quản lý",
+      "CUSTOMER": "Khách hàng",
+      "EMPLOYEE": "Nhân viên",
+      "ADMIN": "Quản trị viên"
+    },
+    "permissions": {
+      "title": "Quyền của vai trò: {role}",
+      "enabled": "Được phép",
+      "disabled": "Bị cấm",
+      "modules": {
+        "Account": "Tài khoản",
+        "Booking": "Đặt lịch",
+        "Review": "Đánh giá",
+        "Service": "Dịch vụ"
+      },
+      "features": {
+        "profile.customer.edit": "Chỉnh sửa hồ sơ cá nhân",
+        "profile.employee.edit": "Chỉnh sửa hồ sơ nhân viên",
+        "booking.create": "Tạo một lịch đặt mới",
+        "booking.view.history": "Xem lịch sử đặt lịch của bản thân",
+        "booking.cancel": "Hủy một lịch đặt",
+        "booking.view.available": "Xem các lịch đặt mới có sẵn",
+        "booking.accept": "Chấp nhận một lịch đặt",
+        "booking.view.assigned": "Xem các lịch đã nhận",
+        "review.create": "Viết đánh giá cho nhân viên",
+        "service.view": "Xem danh sách và chi tiết dịch vụ"
+      }
+    },
+    "messages": {
+      "loading": "Đang tải...",
+      "saving": "Đang lưu thay đổi...",
+      "save_success": "Cập nhật quyền thành công",
+      "load_roles_error": "Không thể tải danh sách vai trò",
+      "load_permissions_error": "Không thể tải quyền vai trò",
+      "save_permissions_error": "Không thể cập nhật quyền",
+      "role_not_exists": "Vai trò không tồn tại",
+      "no_permissions_data": "Không có dữ liệu quyền cho vai trò này"
+    }
+  },
+  "en": {
+    "title": "Permission Management",
+    "subtitle": "Manage access permissions for user roles in the system",
+    "roles": {
+      "title": "Select role to manage",
+      "CUSTOMER": "Customer",
+      "EMPLOYEE": "Employee", 
+      "ADMIN": "Administrator"
+    },
+    "permissions": {
+      "title": "Permissions for role: {role}",
+      "enabled": "Allowed",
+      "disabled": "Denied",
+      "modules": {
+        "Account": "Account",
+        "Booking": "Booking",
+        "Review": "Review",
+        "Service": "Service"
+      },
+      "features": {
+        "profile.customer.edit": "Edit customer profile",
+        "profile.employee.edit": "Edit employee profile",
+        "booking.create": "Create a new booking",
+        "booking.view.history": "View own booking history",
+        "booking.cancel": "Cancel a booking",
+        "booking.view.available": "View available new bookings",
+        "booking.accept": "Accept a booking",
+        "booking.view.assigned": "View assigned bookings",
+        "review.create": "Write review for employee",
+        "service.view": "View service list and details"
+      }
+    },
+    "messages": {
+      "loading": "Loading...",
+      "saving": "Saving changes...",
+      "save_success": "Permission updated successfully",
+      "load_roles_error": "Unable to load role list",
+      "load_permissions_error": "Unable to load role permissions",
+      "save_permissions_error": "Unable to update permissions",
+      "role_not_exists": "Role does not exist",
+      "no_permissions_data": "No permission data for this role"
+    }
+  }
+}

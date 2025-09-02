@@ -19,8 +19,8 @@ Xây dựng hệ thống đa nền tảng (Web, Mobile) phục vụ:
 - FE & BE phát triển song song dựa trên API contract thống nhất.
 
 ## Quy tắc gọi API
-- Nếu là Web app thì vào /api-templates/*.md để lấy API mẫu của dự án
-- Nếu là Mobile app thì vào /api-templates/*.md để lấy API mẫu của dự án
+- Nếu là Web app thì vào /api-templates/* để lấy API mẫu của dự án
+- Nếu là Mobile app thì vào /api-templates/* để lấy API mẫu của dự án
 - Không được sử dụng data tĩnh.
 
 ## Quy tắc code

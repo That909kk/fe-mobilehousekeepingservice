@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/authService';
+import { permissionService } from '../../services/permissionService';
+// import { useUserPermissions } from '../../shared/hooks/useUserPermissions'; // Removed - not needed
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
 import { useLanguage } from '../../shared/hooks/useLanguage';
 import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
-import type { UserRole, DeviceType } from '../../types/auth';
+import { getRoleId } from '../../utils/roleMapping';
+import type { UserRole } from '../../types/auth';
 
 interface LoginForm {
   username: string;
   password: string;
-  role: UserRole;
-  deviceType: DeviceType;
   rememberMe: boolean;
 }
 
 interface LoginErrors {
   username?: string;
   password?: string;
-  role?: string;
   general?: string;
 }
 
@@ -25,14 +25,11 @@ const Login: React.FC = () => {
   const navigate = useNavigate();
   const { language } = useLanguage();
   const { data: staticData, loading: staticLoading } = useStaticData('login', language);
-  
-  console.log('Login component rendered', { language, staticData, staticLoading });
+  // const { setPermissions } = useUserPermissions(); // Removed - not needed anymore
   
   const [form, setForm] = useState<LoginForm>({
     username: '',
     password: '',
-    role: 'CUSTOMER',
-    deviceType: 'WEB',
     rememberMe: false
   });
   
@@ -51,10 +48,6 @@ const Login: React.FC = () => {
       newErrors.password = getNestedValue(staticData, 'messages.validation.password_required', 'Password is required');
     } else if (form.password.length < 6) {
       newErrors.password = getNestedValue(staticData, 'messages.validation.password_min_length', 'Password must be at least 6 characters');
-    }
-    
-    if (!form.role) {
-      newErrors.role = getNestedValue(staticData, 'messages.validation.role_required', 'Role is required');
     }
     
     setErrors(newErrors);
@@ -88,23 +81,91 @@ const Login: React.FC = () => {
     setErrors({});
     
     try {
-      const response = await authService.login({
-        username: form.username,
-        password: form.password,
-        role: form.role,
-        deviceType: form.deviceType
-      });
+      // First, get user roles
+      const roleResponse = await authService.getRoles(form.username.trim(), form.password);
       
-      // If we get here without error, login was successful
-      if (response.success && response.data?.accessToken) {
-        // Show success message briefly
-        setTimeout(() => {
-          navigate('/dashboard');
-        }, 1000);
+      if (!roleResponse.success) {
+        setErrors({
+          general: roleResponse.message || getNestedValue(staticData, 'messages.login_error', 'Login failed. Please check your credentials.')
+        });
+        return;
       }
-    } catch (error: any) {
+
+      const roles = roleResponse.data;
+      const activeRoles = Object.entries(roles)
+        .filter(([, status]) => status === 'ACTIVE')
+        .map(([role]) => role);
+
+      // Check if user has any active roles
+      if (activeRoles.length === 0) {
+        setErrors({
+          general: getNestedValue(staticData, 'messages.account_inactive', 'Tài khoản hiện không hoạt động. Vui lòng liên hệ hỗ trợ để mở lại.')
+        });
+        return;
+      }
+
+      // If user has exactly one active role, login directly with that role
+      if (activeRoles.length === 1) {
+        const selectedRole = activeRoles[0];
+        
+        const loginResponse = await authService.login({
+          username: form.username.trim(),
+          password: form.password,
+          role: selectedRole as UserRole,
+          deviceType: 'WEB',
+          rememberMe: form.rememberMe
+        });
+        
+        if (loginResponse.success && loginResponse.data?.accessToken) {
+          // Lấy roleId từ mapping
+          const roleId = getRoleId(selectedRole);
+          
+          if (roleId) {
+            // Lưu roleId vào storage
+            const storage = form.rememberMe ? localStorage : sessionStorage;
+            storage.setItem('roleId', roleId.toString());
+            
+            try {
+              // Fetch permissions với roleId
+              const permissionsResponse = await permissionService.getRoleDetail(roleId);
+              
+              // Lưu role data vào localStorage để sử dụng trong app
+              if (permissionsResponse.success && permissionsResponse.data && permissionsResponse.data.length > 0) {
+                const roleData = permissionsResponse.data[0];
+                storage.setItem('userRoleData', JSON.stringify(roleData));
+                
+                // Navigate to dashboard - useUserPermissions sẽ tự động load permissions
+                navigate('/dashboard');
+                return; // Early return để tránh navigate 2 lần
+              }
+            } catch (permissionError) {
+              console.error('Failed to fetch permissions:', permissionError);
+              // Vẫn navigate đến dashboard, useUserPermissions sẽ retry
+              navigate('/dashboard');
+              return;
+            }
+          }
+          
+          navigate('/dashboard');
+        } else {
+          setErrors({
+            general: loginResponse.message || getNestedValue(staticData, 'messages.login_error', 'Đăng nhập thất bại')
+          });
+        }
+      } else {
+        // If user has multiple active roles, navigate to role selection
+        navigate('/role-selector', {
+          state: {
+            username: form.username.trim(),
+            password: form.password,
+            rememberMe: form.rememberMe
+          }
+        });
+      }
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : getNestedValue(staticData, 'messages.login_error', 'Login failed. Please check your credentials.');
       setErrors({
-        general: error.response?.data?.message || error.message || getNestedValue(staticData, 'messages.login_error', 'Login failed. Please check your credentials.')
+        general: errorMessage
       });
     } finally {
       setIsSubmitting(false);
@@ -115,7 +176,6 @@ const Login: React.FC = () => {
     try {
       setIsSubmitting(true);
       // Simulate Google OAuth flow
-      console.log('Google OAuth login initiated...');
       // TODO: Implement actual Google OAuth integration
       setTimeout(() => {
         setErrors({
@@ -123,9 +183,10 @@ const Login: React.FC = () => {
         });
         setIsSubmitting(false);
       }, 1000);
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : getNestedValue(staticData, 'messages.google_error', 'Google sign in failed. Please try again.');
       setErrors({
-        general: error.message || getNestedValue(staticData, 'messages.google_error', 'Google sign in failed. Please try again.')
+        general: errorMessage
       });
       setIsSubmitting(false);
     }
@@ -242,65 +303,10 @@ const Login: React.FC = () => {
             </div>
           )}
 
-          {/* Google Login Button */}
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            disabled={isSubmitting}
-            className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed mb-6"
-          >
-            <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
-              <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            {getNestedValue(staticData, 'actions.google_login', 'Sign in with Google')}
-          </button>
 
-          {/* Divider */}
-          <div className="relative mb-6">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300" />
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                {getNestedValue(staticData, 'divider.text', 'Or continue with')}
-              </span>
-            </div>
-          </div>
 
           {/* Login Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Role Field */}
-            <div>
-              <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-2">
-                {getNestedValue(staticData, 'form.role.label', 'Role')}
-              </label>
-              <select
-                id="role"
-                name="role"
-                value={form.role}
-                onChange={handleInputChange}
-                className={`appearance-none relative block w-full px-4 py-3 border ${
-                  errors.role ? 'border-red-300' : 'border-gray-300'
-                } text-gray-900 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm transition-all duration-200`}
-              >
-                <option value="CUSTOMER">
-                  {getNestedValue(staticData, 'form.role.options.customer', 'Customer')}
-                </option>
-                <option value="EMPLOYEE">
-                  {getNestedValue(staticData, 'form.role.options.employee', 'Employee')}
-                </option>
-                <option value="ADMIN">
-                  {getNestedValue(staticData, 'form.role.options.admin', 'Admin')}
-                </option>
-              </select>
-              {errors.role && (
-                <p className="mt-1 text-sm text-red-600">{errors.role}</p>
-              )}
-            </div>
-
             {/* Username Field */}
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
@@ -411,8 +417,36 @@ const Login: React.FC = () => {
               )}
             </button>
 
+            {/* Divider */}
+            <div className="relative my-6">
+              <div className="absolute inset-0 flex items-center">
+                <div className="w-full border-t border-gray-300" />
+              </div>
+              <div className="relative flex justify-center text-sm">
+                <span className="px-2 bg-white text-gray-500">
+                  {getNestedValue(staticData, 'divider.text', 'Or continue with')}
+                </span>
+              </div>
+            </div>
+
+            {/* Google Login Button */}
+            <button
+              type="button"
+              onClick={handleGoogleLogin}
+              disabled={isSubmitting}
+              className="w-full flex justify-center items-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <svg className="w-5 h-5 mr-3" viewBox="0 0 24 24">
+                <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+                <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+              </svg>
+              {getNestedValue(staticData, 'actions.google_login', 'Sign in with Google')}
+            </button>
+
             {/* Sign up link */}
-            <p className="text-center text-sm text-gray-600">
+            <p className="text-center text-sm text-gray-600 mt-6">
               {getNestedValue(staticData, 'messages.no_account', "Don't have an account?")}{' '}
               <Link
                 to="/register"

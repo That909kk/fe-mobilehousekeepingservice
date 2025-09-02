@@ -43,6 +43,7 @@
 - Mỗi lần chỉ thực hiện 1 câu lệnh để import các dependencies cần thiết(sử dụng ; thay cho && )
 - Đảm bảo không có bất kỳ lỗi và Problems nào trước khi chạy thử để test 
 - Đảm bảo scale trên các màn hình IOS và Android
+- Khi muốn gọi API vào /api-templates/{Tên Tính Năng}/*.md để xem cấu trúc API
 ## Static-data JSON (quy ước)
 ```json
 {

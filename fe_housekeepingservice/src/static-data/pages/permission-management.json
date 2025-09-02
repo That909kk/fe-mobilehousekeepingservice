@@ -1,0 +1,82 @@
+{
+  "vi": {
+    "title": "Quản lý Phân quyền",
+    "subtitle": "Quản lý quyền truy cập cho các vai trò người dùng",
+    "roleSelection": {
+      "title": "Chọn vai trò để quản lý",
+      "placeholder": "-- Chọn vai trò --"
+    },
+    "permissions": {
+      "title": "Phân quyền cho: {roleName}",
+      "saveButton": "Lưu phân quyền",
+      "savingButton": "Đang lưu...",
+      "loadingText": "Đang tải quyền..."
+    },
+    "modules": {
+      "Account": "Tài khoản",
+      "Booking": "Đặt lịch",
+      "Review": "Đánh giá",
+      "Service": "Dịch vụ",
+      "Admin": "Quản trị"
+    },
+    "status": {
+      "enabled": "Được phép",
+      "disabled": "Bị cấm"
+    },
+    "messages": {
+      "success": "Cập nhật phân quyền thành công!",
+      "error": "Không thể cập nhật phân quyền",
+      "loadError": "Không thể tải dữ liệu",
+      "roleNotFound": "Vai trò không tồn tại",
+      "featureNotFound": "Tính năng không tồn tại",
+      "unauthorizedTitle": "Không có quyền truy cập",
+      "unauthorizedMessage": "Bạn không có quyền quản lý phân quyền hệ thống.",
+      "backButton": "Quay lại"
+    },
+    "loading": {
+      "roles": "Đang tải danh sách vai trò...",
+      "permissions": "Đang tải quyền...",
+      "saving": "Đang lưu thay đổi..."
+    }
+  },
+  "en": {
+    "title": "Permission Management",
+    "subtitle": "Manage access permissions for user roles",
+    "roleSelection": {
+      "title": "Select role to manage",
+      "placeholder": "-- Select role --"
+    },
+    "permissions": {
+      "title": "Permissions for: {roleName}",
+      "saveButton": "Save permissions",
+      "savingButton": "Saving...",
+      "loadingText": "Loading permissions..."
+    },
+    "modules": {
+      "Account": "Account",
+      "Booking": "Booking",
+      "Review": "Review",
+      "Service": "Service",
+      "Admin": "Admin"
+    },
+    "status": {
+      "enabled": "Enabled",
+      "disabled": "Disabled"
+    },
+    "messages": {
+      "success": "Permissions updated successfully!",
+      "error": "Unable to update permissions",
+      "loadError": "Unable to load data",
+      "roleNotFound": "Role not found",
+      "featureNotFound": "Feature not found",
+      "unauthorizedTitle": "Access Denied",
+      "unauthorizedMessage": "You don't have permission to manage system permissions.",
+      "backButton": "Go Back"
+    },
+    "loading": {
+      "roles": "Loading roles...",
+      "permissions": "Loading permissions...",
+      "saving": "Saving changes..."
+    }
+  }
+}

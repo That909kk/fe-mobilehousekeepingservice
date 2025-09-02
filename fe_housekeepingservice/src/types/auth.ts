@@ -1,5 +1,6 @@
 // Enums for better type safety
 export type UserRole = 'CUSTOMER' | 'EMPLOYEE' | 'ADMIN';
+export type RegistrationRole = 'CUSTOMER' | 'EMPLOYEE'; // Only allow these roles for registration
 export type DeviceType = 'WEB' | 'MOBILE';
 export type UserStatus = 'ACTIVE' | 'INACTIVE' | 'BLOCKED';
 
@@ -19,6 +20,7 @@ export interface LoginResponse {
     refreshToken: string;
     expireIn: number;
     role: UserRole;
+    roleId?: number; // Thêm roleId
     deviceType: DeviceType;
     data: CustomerData | EmployeeData | AdminData;
   };
@@ -31,7 +33,7 @@ export interface RegisterRequest {
   fullName: string;
   email: string;
   phoneNumber: string;
-  role: UserRole;
+  role: RegistrationRole; // Use RegistrationRole instead of UserRole
 }
 
 export interface RegisterResponse {
@@ -128,7 +130,7 @@ export interface SessionResponse {
 }
 
 // Generic API response
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   success: boolean;
   message: string;
   data?: T;

@@ -1,0 +1,58 @@
+{
+  "vi": {
+    "title": "Chọn vai trò",
+    "subtitle": "Bạn có nhiều vai trò hoạt động. Vui lòng chọn vai trò để tiếp tục.",
+    "form": {
+      "select_role": "Chọn vai trò của bạn:"
+    },
+    "roles": {
+      "customer": "Khách hàng",
+      "employee": "Nhân viên",
+      "admin": "Quản trị viên"
+    },
+    "role_descriptions": {
+      "customer": "Đặt và quản lý dịch vụ dọn dẹp",
+      "employee": "Thực hiện và quản lý công việc",
+      "admin": "Quản trị hệ thống và dữ liệu"
+    },
+    "actions": {
+      "continue": "Tiếp tục",
+      "continuing": "Đang tiếp tục...",
+      "back_to_login": "Quay lại đăng nhập"
+    },
+    "messages": {
+      "validation": {
+        "role_required": "Vui lòng chọn vai trò"
+      },
+      "login_error": "Đăng nhập thất bại. Vui lòng thử lại."
+    }
+  },
+  "en": {
+    "title": "Select Role",
+    "subtitle": "You have multiple active roles. Please select a role to continue.",
+    "form": {
+      "select_role": "Select your role:"
+    },
+    "roles": {
+      "customer": "Customer",
+      "employee": "Employee",
+      "admin": "Administrator"
+    },
+    "role_descriptions": {
+      "customer": "Book and manage cleaning services",
+      "employee": "Perform and manage work tasks",
+      "admin": "Administer system and data"
+    },
+    "actions": {
+      "continue": "Continue",
+      "continuing": "Continuing...",
+      "back_to_login": "Back to login"
+    },
+    "messages": {
+      "validation": {
+        "role_required": "Please select a role"
+      },
+      "login_error": "Login failed. Please try again."
+    }
+  }
+}

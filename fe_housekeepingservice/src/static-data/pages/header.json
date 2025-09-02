@@ -1,0 +1,46 @@
+{
+  "vi": {
+    "navigation": {
+      "home": "Trang chủ",
+      "menu_toggle": "Mở menu"
+    },
+    "search": {
+      "placeholder": "Tìm kiếm..."
+    },
+    "user": {
+      "greeting": "Xin chào",
+      "roles": {
+        "customer": "Khách hàng",
+        "employee": "Nhân viên",
+        "admin": "Quản trị viên"
+      }
+    },
+    "dropdown": {
+      "profile": "Thông tin cá nhân",
+      "settings": "Cài đặt",
+      "logout": "Đăng xuất"
+    }
+  },
+  "en": {
+    "navigation": {
+      "home": "Home",
+      "menu_toggle": "Open menu"
+    },
+    "search": {
+      "placeholder": "Search..."
+    },
+    "user": {
+      "greeting": "Hello",
+      "roles": {
+        "customer": "Customer",
+        "employee": "Employee",
+        "admin": "Administrator"
+      }
+    },
+    "dropdown": {
+      "profile": "Profile",
+      "settings": "Settings",
+      "logout": "Logout"
+    }
+  }
+}

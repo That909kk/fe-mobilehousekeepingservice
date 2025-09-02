@@ -1,54 +1,31 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService } from '../services/authService';
+import { useAuth } from '../shared/hooks/useAuth';
+import { useMenuPermissions } from '../shared/hooks/useMenuPermissions';
 import { useStaticData, getNestedValue } from '../shared/hooks/useStaticData';
 import { useLanguage } from '../shared/hooks/useLanguage';
-import LanguageSwitcher from '../shared/components/LanguageSwitcher';
-import type { User } from '../types/auth';
+import Header from '../shared/components/Header';
+import type { CustomerData, EmployeeData, AdminData } from '../types/auth';
 
 const Dashboard: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  const { user, logout: authLogout, loading: authLoading } = useAuth();
+  const { groupedMenus, loading: permissionsLoading, hasPermission } = useMenuPermissions();
   const { language } = useLanguage();
   const { data: staticData, loading: staticLoading } = useStaticData('dashboard', language);
-
-  useEffect(() => {
-    const loadUserData = async () => {
-      try {
-        const userData = await authService.getCurrentUser();
-        setUser(userData);
-      } catch (error) {
-        // Token không hợp lệ, chuyển về trang đăng nhập
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('refresh_token');
-        localStorage.removeItem('user_roles');
-        navigate('/login');
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadUserData();
-  }, [navigate]);
+  const [searchTerm, setSearchTerm] = useState('');
 
   const handleLogout = async () => {
     try {
-      const refreshToken = localStorage.getItem('refresh_token');
-      if (refreshToken) {
-        await authService.logout(refreshToken);
-      }
+      await authLogout();
+      navigate('/login');
     } catch (error) {
       console.error('Logout error:', error);
-    } finally {
-      localStorage.removeItem('access_token');
-      localStorage.removeItem('refresh_token');
-      localStorage.removeItem('user_roles');
       navigate('/login');
     }
   };
 
-  if (isLoading || staticLoading) {
+  if (authLoading || staticLoading || permissionsLoading) {
     return (
       <div style={{ 
         display: 'flex', 
@@ -62,76 +39,117 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto', position: 'relative' }}>
-      {/* Language Switcher */}
-      <div style={{ position: 'absolute', top: '10px', right: '10px' }}>
-        <LanguageSwitcher />
-      </div>
-      
-      <div style={{ 
-        background: 'white', 
-        borderRadius: '8px', 
-        padding: '20px', 
-        boxShadow: '0 2px 4px rgba(0,0,0,0.1)' 
-      }}>
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
-          marginBottom: '30px' 
-        }}>
-          <h1 style={{ margin: 0, color: '#333' }}>
-            {getNestedValue(staticData, 'title', 'Dashboard')}
-          </h1>
-          <button 
-            onClick={handleLogout}
-            style={{
-              background: '#e74c3c',
-              color: 'white',
-              border: 'none',
-              padding: '10px 20px',
-              borderRadius: '6px',
-              cursor: 'pointer'
-            }}
-          >
-            {getNestedValue(staticData, 'actions.logout', 'Logout')}
-          </button>
-        </div>
+    <div style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
+      {/* Header */}
+      <Header 
+        isHomePage={true}
+        searchTerm={searchTerm}
+        onSearchChange={setSearchTerm}
+        searchPlaceholder={getNestedValue(staticData, 'header.search.placeholder', 'Tìm kiếm...')}
+      />
 
-        {user && (
+      {/* Main Content */}
+      <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+        <div style={{ 
+          background: 'white', 
+          borderRadius: '8px', 
+          padding: '20px', 
+          boxShadow: '0 2px 4px rgba(0,0,0,0.1)' 
+        }}>
           <div style={{ 
-            background: '#f8f9fa', 
-            padding: '20px', 
-            borderRadius: '6px',
-            marginBottom: '20px'
+            display: 'flex', 
+            justifyContent: 'space-between', 
+            alignItems: 'center', 
+            marginBottom: '20px' 
           }}>
-            <h2 style={{ marginTop: 0, color: '#333' }}>
-              {getNestedValue(staticData, 'user_info.title', 'Account Information')}
-            </h2>
-            <div style={{ display: 'grid', gap: '10px' }}>
-              <div><strong>{getNestedValue(staticData, 'user_info.fields.id', 'ID')}:</strong> {user.account_id}</div>
-              <div><strong>{getNestedValue(staticData, 'user_info.fields.username', 'Username')}:</strong> {user.username}</div>
-              <div><strong>{getNestedValue(staticData, 'user_info.fields.full_name', 'Full Name')}:</strong> {user.full_name}</div>
-              <div><strong>{getNestedValue(staticData, 'user_info.fields.email', 'Email')}:</strong> {user.email}</div>
-              <div><strong>{getNestedValue(staticData, 'user_info.fields.phone', 'Phone Number')}:</strong> {user.phone_number}</div>
-              <div><strong>{getNestedValue(staticData, 'user_info.fields.roles', 'Roles')}:</strong> {user.roles}</div>
-              <div><strong>{getNestedValue(staticData, 'user_info.fields.status', 'Status')}:</strong> {user.status}</div>
+            <h1 style={{ margin: 0, color: '#333' }}>
+              {getNestedValue(staticData, 'welcome.title', 'Dashboard')}
+            </h1>
+            <div style={{ color: '#666', fontSize: '14px' }}>
+              {getNestedValue(staticData, 'welcome.date', new Date().toLocaleDateString('vi-VN'))}
             </div>
           </div>
-        )}
 
-        <div style={{ 
-          background: '#e8f5e8', 
-          padding: '15px', 
-          borderRadius: '6px',
-          textAlign: 'center'
-        }}>
-          <h3 style={{ margin: '0 0 10px 0', color: '#27ae60' }}>
-            {getNestedValue(staticData, 'welcome.title', 'Welcome to Housekeeping Service!')}
-          </h3>
-          <p style={{ margin: 0, color: '#666' }}>
-            {getNestedValue(staticData, 'welcome.subtitle', 'You have successfully logged into the system.')}
-          </p>
+          {/* Welcome message */}
+          <div style={{ 
+            background: '#f8f9fa', 
+            padding: '15px', 
+            borderRadius: '6px', 
+            marginBottom: '30px',
+            border: '1px solid #e9ecef'
+          }}>
+            <h3 style={{ margin: '0 0 10px 0', color: '#333' }}>
+              {getNestedValue(staticData, 'welcome.greeting', 'Chào mừng')} {user?.fullName}!
+            </h3>
+            <p style={{ margin: 0, color: '#666' }}>
+              {getNestedValue(staticData, 'welcome.description', 'Chọn chức năng từ menu để bắt đầu sử dụng hệ thống.')}
+            </p>
+          </div>
+
+          {/* Quick actions */}
+          <div>
+            <h3 style={{ marginBottom: '15px', color: '#333' }}>
+              {getNestedValue(staticData, 'quick_actions.title', 'Chức năng nhanh')}
+            </h3>
+            <div style={{ 
+              display: 'grid', 
+              gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', 
+              gap: '15px' 
+            }}>
+              {groupedMenus.length > 0 ? (
+                groupedMenus.slice(0, 6).map((group) => (
+                  group.menus.slice(0, 1).map((menu) => (
+                    <button
+                      key={menu.path}
+                      onClick={() => navigate(menu.path)}
+                      style={{
+                        background: 'white',
+                        border: '1px solid #ddd',
+                        borderRadius: '8px',
+                        padding: '20px',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'all 0.2s ease',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '15px'
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.borderColor = '#007bff';
+                        e.currentTarget.style.backgroundColor = '#f8f9fa';
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.borderColor = '#ddd';
+                        e.currentTarget.style.backgroundColor = 'white';
+                      }}
+                    >
+                      <span style={{ fontSize: '24px' }}>{menu.icon}</span>
+                      <div>
+                        <div style={{ fontWeight: '500', marginBottom: '5px', color: '#333' }}>
+                          {menu.label}
+                        </div>
+                        <div style={{ fontSize: '12px', color: '#666' }}>
+                          {menu.description}
+                        </div>
+                      </div>
+                    </button>
+                  ))
+                ))
+              ) : (
+                <div style={{ 
+                  textAlign: 'center', 
+                  color: '#999', 
+                  padding: '40px',
+                  gridColumn: '1 / -1'
+                }}>
+                  <p>{getNestedValue(staticData, 'no_permissions', 'Không có quyền truy cập chức năng nào.')}</p>
+                  <p style={{ fontSize: '12px', marginTop: '10px' }}>
+                    {getNestedValue(staticData, 'contact_admin', 'Vui lòng liên hệ quản trị viên để được cấp quyền.')}
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

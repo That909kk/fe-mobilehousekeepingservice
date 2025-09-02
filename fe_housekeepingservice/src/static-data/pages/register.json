@@ -70,7 +70,7 @@
         "phoneNumber_required": "Số điện thoại là bắt buộc",
         "phoneNumber_invalid": "Số điện thoại không hợp lệ",
         "password_required": "Mật khẩu là bắt buộc",
-        "password_length": "Mật khẩu phải có từ 6-100 ký tự",
+        "password_length": "Mật khẩu phải có từ 8-100 ký tự",
         "confirm_password_required": "Xác nhận mật khẩu là bắt buộc",
         "passwords_not_match": "Mật khẩu không khớp",
         "terms_required": "Bạn phải đồng ý với điều khoản sử dụng"
@@ -153,7 +153,7 @@
         "phoneNumber_required": "Phone number is required",
         "phoneNumber_invalid": "Phone number is invalid",
         "password_required": "Password is required",
-        "password_length": "Password must be 6-100 characters",
+        "password_length": "Password must be 8-100 characters",
         "confirm_password_required": "Confirm password is required",
         "passwords_not_match": "Passwords do not match",
         "terms_required": "You must agree to the terms of service"

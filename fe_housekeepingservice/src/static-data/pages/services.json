@@ -1,0 +1,106 @@
+{
+  "vi": {
+    "title": "Dịch vụ",
+    "subtitle": "Khám phá các dịch vụ giúp việc gia đình của chúng tôi",
+    "search": {
+      "placeholder": "Tìm kiếm dịch vụ...",
+      "button": "Tìm kiếm",
+      "filters": {
+        "category": "Danh mục",
+        "priceRange": "Khoảng giá",
+        "unit": "Đơn vị",
+        "all": "Tất cả"
+      }
+    },
+    "actions": {
+      "viewDetail": "Xem chi tiết",
+      "bookNow": "Đặt ngay",
+      "addToCart": "Thêm vào giỏ",
+      "compare": "So sánh"
+    },
+    "labels": {
+      "price": "Giá",
+      "duration": "Thời gian",
+      "unit": "Đơn vị",
+      "category": "Danh mục",
+      "status": "Trạng thái",
+      "description": "Mô tả"
+    },
+    "status": {
+      "active": "Đang hoạt động",
+      "inactive": "Ngưng hoạt động"
+    },
+    "units": {
+      "hour": "giờ",
+      "m2": "m²",
+      "package": "gói"
+    },
+    "messages": {
+      "empty": "Không có dịch vụ nào",
+      "loading": "Đang tải dịch vụ...",
+      "error": "Có lỗi xảy ra khi tải dữ liệu",
+      "notFound": "Không tìm thấy dịch vụ"
+    },
+    "pagination": {
+      "previous": "Trước",
+      "next": "Tiếp",
+      "page": "Trang",
+      "of": "của",
+      "showing": "Hiển thị",
+      "to": "đến",
+      "results": "kết quả"
+    }
+  },
+  "en": {
+    "title": "Services",
+    "subtitle": "Discover our housekeeping services",
+    "search": {
+      "placeholder": "Search services...",
+      "button": "Search",
+      "filters": {
+        "category": "Category",
+        "priceRange": "Price Range",
+        "unit": "Unit",
+        "all": "All"
+      }
+    },
+    "actions": {
+      "viewDetail": "View Detail",
+      "bookNow": "Book Now",
+      "addToCart": "Add to Cart",
+      "compare": "Compare"
+    },
+    "labels": {
+      "price": "Price",
+      "duration": "Duration",
+      "unit": "Unit",
+      "category": "Category",
+      "status": "Status",
+      "description": "Description"
+    },
+    "status": {
+      "active": "Active",
+      "inactive": "Inactive"
+    },
+    "units": {
+      "hour": "hour",
+      "m2": "m²",
+      "package": "package"
+    },
+    "messages": {
+      "empty": "No services available",
+      "loading": "Loading services...",
+      "error": "Error loading data",
+      "notFound": "Service not found"
+    },
+    "pagination": {
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page",
+      "of": "of",
+      "showing": "Showing",
+      "to": "to",
+      "results": "results"
+    }
+  }
+}

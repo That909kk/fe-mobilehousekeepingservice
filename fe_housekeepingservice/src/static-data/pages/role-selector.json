@@ -1,0 +1,34 @@
+{
+  "vi": {
+    "title": "Chọn vai trò",
+    "subtitle": "Vui lòng chọn vai trò để tiếp tục",
+    "loading": "Đang tải...",
+    "roles": {
+      "admin": "Quản trị viên",
+      "employee": "Nhân viên", 
+      "customer": "Khách hàng"
+    },
+    "descriptions": {
+      "admin": "Quản lý hệ thống và người dùng",
+      "employee": "Thực hiện các dịch vụ giúp việc",
+      "customer": "Đặt và sử dụng dịch vụ"
+    },
+    "backToLogin": "← Quay lại đăng nhập"
+  },
+  "en": {
+    "title": "Select Role",
+    "subtitle": "Please select a role to continue",
+    "loading": "Loading...",
+    "roles": {
+      "admin": "Administrator",
+      "employee": "Employee",
+      "customer": "Customer"
+    },
+    "descriptions": {
+      "admin": "Manage system and users",
+      "employee": "Perform housekeeping services",
+      "customer": "Book and use services"
+    },
+    "backToLogin": "← Back to login"
+  }
+}

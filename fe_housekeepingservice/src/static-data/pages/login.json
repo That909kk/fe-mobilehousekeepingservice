@@ -34,14 +34,14 @@
       "validation": {
         "username_required": "Tên đăng nhập là bắt buộc",
         "password_required": "Mật khẩu là bắt buộc",
-        "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự",
-        "role_required": "Vai trò là bắt buộc"
+        "password_min_length": "Mật khẩu phải có ít nhất 6 ký tự"
       },
       "no_account": "Chưa có tài khoản?",
       "register_link": "Đăng ký ngay",
       "login_success": "Đăng nhập thành công!",
       "login_error": "Đăng nhập thất bại. Vui lòng kiểm tra lại thông tin.",
-      "google_error": "Đăng nhập Google thất bại. Vui lòng thử lại."
+      "google_error": "Đăng nhập Google thất bại. Vui lòng thử lại.",
+      "account_inactive": "Tài khoản hiện không hoạt động. Vui lòng liên hệ hỗ trợ để mở lại."
     }
   },
   "en": {
@@ -79,14 +79,14 @@
       "validation": {
         "username_required": "Username is required",
         "password_required": "Password is required",
-        "password_min_length": "Password must be at least 6 characters",
-        "role_required": "Role is required"
+        "password_min_length": "Password must be at least 6 characters"
       },
       "no_account": "Don't have an account?",
       "register_link": "Sign up",
       "login_success": "Login successful!",
       "login_error": "Login failed. Please check your credentials.",
-      "google_error": "Google sign in failed. Please try again."
+      "google_error": "Google sign in failed. Please try again.",
+      "account_inactive": "Account is currently inactive. Please contact support to reactivate."
     }
   }
 }

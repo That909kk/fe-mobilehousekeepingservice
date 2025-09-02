@@ -1,0 +1,132 @@
+{
+  "vi": {
+    "title": "Lịch làm việc",
+    "subtitle": "Quản lý lịch làm việc của nhân viên",
+    "tabs": {
+      "today": "Hôm nay",
+      "week": "Tuần này",
+      "month": "Tháng này",
+      "all": "Tất cả"
+    },
+    "filters": {
+      "employee": "Nhân viên",
+      "status": "Trạng thái",
+      "shiftType": "Ca làm việc",
+      "dateRange": "Khoảng thời gian"
+    },
+    "actions": {
+      "create": "Tạo lịch mới",
+      "edit": "Chỉnh sửa",
+      "delete": "Xóa",
+      "view": "Xem chi tiết",
+      "export": "Xuất lịch"
+    },
+    "labels": {
+      "employee": "Nhân viên",
+      "workDate": "Ngày làm việc",
+      "startTime": "Giờ bắt đầu",
+      "endTime": "Giờ kết thúc",
+      "shiftType": "Ca làm việc",
+      "status": "Trạng thái",
+      "service": "Dịch vụ",
+      "customer": "Khách hàng",
+      "notes": "Ghi chú"
+    },
+    "shiftTypes": {
+      "MORNING": "Ca sáng",
+      "AFTERNOON": "Ca chiều",
+      "EVENING": "Ca tối",
+      "FULL_DAY": "Cả ngày"
+    },
+    "status": {
+      "SCHEDULED": "Đã lên lịch",
+      "WORKING": "Đang làm việc",
+      "COMPLETED": "Hoàn thành",
+      "CANCELLED": "Đã hủy"
+    },
+    "messages": {
+      "empty": "Không có lịch làm việc nào",
+      "loading": "Đang tải lịch làm việc...",
+      "error": "Có lỗi xảy ra khi tải dữ liệu",
+      "createSuccess": "Tạo lịch làm việc thành công",
+      "updateSuccess": "Cập nhật lịch làm việc thành công",
+      "deleteSuccess": "Xóa lịch làm việc thành công",
+      "deleteConfirm": "Bạn có chắc chắn muốn xóa lịch làm việc này?"
+    },
+    "form": {
+      "title": "Thông tin lịch làm việc",
+      "selectEmployee": "Chọn nhân viên",
+      "selectService": "Chọn dịch vụ",
+      "selectCustomer": "Chọn khách hàng",
+      "selectShiftType": "Chọn ca làm việc",
+      "save": "Lưu",
+      "cancel": "Hủy",
+      "required": "Trường này là bắt buộc"
+    }
+  },
+  "en": {
+    "title": "Work Schedule",
+    "subtitle": "Manage employee work schedules",
+    "tabs": {
+      "today": "Today",
+      "week": "This Week",
+      "month": "This Month",
+      "all": "All"
+    },
+    "filters": {
+      "employee": "Employee",
+      "status": "Status",
+      "shiftType": "Shift Type",
+      "dateRange": "Date Range"
+    },
+    "actions": {
+      "create": "Create Schedule",
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View Detail",
+      "export": "Export Schedule"
+    },
+    "labels": {
+      "employee": "Employee",
+      "workDate": "Work Date",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "shiftType": "Shift Type",
+      "status": "Status",
+      "service": "Service",
+      "customer": "Customer",
+      "notes": "Notes"
+    },
+    "shiftTypes": {
+      "MORNING": "Morning",
+      "AFTERNOON": "Afternoon",
+      "EVENING": "Evening",
+      "FULL_DAY": "Full Day"
+    },
+    "status": {
+      "SCHEDULED": "Scheduled",
+      "WORKING": "Working",
+      "COMPLETED": "Completed",
+      "CANCELLED": "Cancelled"
+    },
+    "messages": {
+      "empty": "No schedules available",
+      "loading": "Loading schedules...",
+      "error": "Error loading data",
+      "createSuccess": "Schedule created successfully",
+      "updateSuccess": "Schedule updated successfully",
+      "deleteSuccess": "Schedule deleted successfully",
+      "deleteConfirm": "Are you sure you want to delete this schedule?"
+    },
+    "form": {
+      "title": "Schedule Information",
+      "selectEmployee": "Select Employee",
+      "selectService": "Select Service",
+      "selectCustomer": "Select Customer",
+      "selectShiftType": "Select Shift Type",
+      "save": "Save",
+      "cancel": "Cancel",
+      "required": "This field is required"
+    }
+  }
+}

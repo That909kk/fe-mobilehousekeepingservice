@@ -2,7 +2,7 @@ import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
-import { LanguageProvider } from './shared/hooks/useLanguage'
+import { LanguageProvider } from './shared/contexts/LanguageProvider';
 
 // Simple Error Boundary
 class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasError: boolean}> {
@@ -15,7 +15,7 @@ class ErrorBoundary extends React.Component<{children: React.ReactNode}, {hasErr
     return { hasError: true };
   }
 
-  componentDidCatch(error: Error, errorInfo: any) {
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     console.error('Error caught by boundary:', error, errorInfo);
   }
 

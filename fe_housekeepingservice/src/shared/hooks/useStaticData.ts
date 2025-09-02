@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 type Language = 'vi' | 'en';
 
 interface StaticData {
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export const useStaticData = (pageName: string, language: Language = 'vi') => {
@@ -34,8 +34,13 @@ export const useStaticData = (pageName: string, language: Language = 'vi') => {
 };
 
 // Helper function để get nested properties
-export const getNestedValue = (obj: any, path: string, defaultValue: string = '') => {
+export const getNestedValue = (obj: Record<string, unknown> | null | undefined, path: string, defaultValue: string = '') => {
+  if (!obj) return defaultValue;
+  
   return path.split('.').reduce((current, key) => {
-    return current && current[key] !== undefined ? current[key] : defaultValue;
-  }, obj);
+    if (current && typeof current === 'object' && key in current) {
+      return (current as Record<string, unknown>)[key];
+    }
+    return defaultValue;
+  }, obj as unknown) as string || defaultValue;
 };

@@ -1,0 +1,28 @@
+{
+  "vi": {
+    "title": "Bảng điều khiển Quản trị",
+    "welcome": "Chào mừng trở lại",
+    "stats": {
+      "totalUsers": "Tổng người dùng",
+      "totalServices": "Tổng dịch vụ",
+      "totalSchedules": "Lịch hôm nay",
+      "revenue": "Doanh thu tháng"
+    },
+    "quickActions": {
+      "title": "Thao tác nhanh"
+    }
+  },
+  "en": {
+    "title": "Admin Dashboard",
+    "welcome": "Welcome back",
+    "stats": {
+      "totalUsers": "Total Users",
+      "totalServices": "Total Services", 
+      "totalSchedules": "Today's Schedules",
+      "revenue": "Monthly Revenue"
+    },
+    "quickActions": {
+      "title": "Quick Actions"
+    }
+  }
+}

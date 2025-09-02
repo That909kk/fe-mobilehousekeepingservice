@@ -4,7 +4,6 @@ import { authService } from '../../services/authService';
 import type { VerifyOTPRequest } from '../../types/auth';
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
 import { useLanguage } from '../../shared/hooks/useLanguage';
-import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
 
 const VerifyOTP: React.FC = () => {
   const location = useLocation();
@@ -22,15 +21,6 @@ const VerifyOTP: React.FC = () => {
   // Refs cho các input OTP
   const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
 
-  // Return loading state if static data is still loading
-  if (staticLoading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600"></div>
-      </div>
-    );
-  }
-
   useEffect(() => {
     if (!email) {
       navigate('/forgot-password');
@@ -39,7 +29,7 @@ const VerifyOTP: React.FC = () => {
 
     // Đếm ngược thời gian
     const timer = setInterval(() => {
-      setCountdown((prev) => {
+      setCountdown(prev => {
         if (prev <= 1) {
           setCanResend(true);
           clearInterval(timer);
@@ -51,6 +41,15 @@ const VerifyOTP: React.FC = () => {
 
     return () => clearInterval(timer);
   }, [email, navigate]);
+
+  // Return loading state if static data is still loading
+  if (staticLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary-600"></div>
+      </div>
+    );
+  }
 
   const formatTime = (seconds: number): string => {
     const minutes = Math.floor(seconds / 60);
@@ -144,9 +143,9 @@ const VerifyOTP: React.FC = () => {
       
       // Chuyển đến trang đặt lại mật khẩu
       navigate('/reset-password', { state: { email, otp: otpString } });
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrors({
-        general: error.response?.data?.error || 'Mã OTP không chính xác. Vui lòng thử lại.'
+        general: error instanceof Error ? error.message : 'Mã OTP không chính xác. Vui lòng thử lại.'
       });
     } finally {
       setIsLoading(false);
@@ -176,9 +175,9 @@ const VerifyOTP: React.FC = () => {
       }, 1000);
       
       alert('Mã OTP mới đã được gửi đến email của bạn!');
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrors({
-        general: error.response?.data?.error || 'Gửi lại OTP thất bại. Vui lòng thử lại.'
+        general: error instanceof Error ? error.message : 'Gửi lại OTP thất bại. Vui lòng thử lại.'
       });
     } finally {
       setIsLoading(false);
@@ -186,12 +185,7 @@ const VerifyOTP: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
-      {/* Language Switcher */}
-      <div className="absolute top-6 right-6">
-        <LanguageSwitcher />
-      </div>
-      
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-auth p-8 animate-fade-in">
           <div className="text-center mb-8">

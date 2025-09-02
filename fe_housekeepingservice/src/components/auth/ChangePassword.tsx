@@ -5,7 +5,9 @@ import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData'
 import { useLanguage } from '../../shared/hooks/useLanguage';
 import type { ChangePasswordRequest } from '../../types/auth';
 
-interface ChangePasswordForm extends ChangePasswordRequest {}
+interface ChangePasswordForm extends ChangePasswordRequest {
+  confirmPassword: string;
+}
 
 interface ChangePasswordErrors {
   currentPassword?: string;
@@ -91,9 +93,13 @@ const ChangePassword: React.FC = () => {
         authService.logout();
         navigate('/login');
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error 
+        ? error.message 
+        : getNestedValue(staticData, 'messages.change_password_error', 'Failed to change password. Please try again.');
+      
       setErrors({
-        general: error.response?.data?.message || error.message || getNestedValue(staticData, 'messages.change_password_error', 'Failed to change password. Please try again.')
+        general: errorMessage
       });
     } finally {
       setIsSubmitting(false);

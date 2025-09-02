@@ -1,0 +1,34 @@
+{
+  "vi": {
+    "title": "Bảng điều khiển Nhân viên",
+    "welcome": "Chào mừng",
+    "todaySchedule": {
+      "title": "Lịch làm việc hôm nay",
+      "empty": "Không có lịch làm việc hôm nay"
+    },
+    "stats": {
+      "completedToday": "Hoàn thành hôm nay",
+      "pending": "Đang chờ",
+      "customersServed": "Khách hàng đã phục vụ"
+    },
+    "quickActions": {
+      "title": "Thao tác nhanh"
+    }
+  },
+  "en": {
+    "title": "Employee Dashboard",
+    "welcome": "Welcome",
+    "todaySchedule": {
+      "title": "Today's Schedule",
+      "empty": "No schedule for today"
+    },
+    "stats": {
+      "completedToday": "Completed Today",
+      "pending": "Pending",
+      "customersServed": "Customers Served"
+    },
+    "quickActions": {
+      "title": "Quick Actions"
+    }
+  }
+}

@@ -4,7 +4,6 @@ import { authService } from '../../services/authService';
 import type { ResetPasswordRequest } from '../../types/auth';
 import { useStaticData, getNestedValue } from '../../shared/hooks/useStaticData';
 import { useLanguage } from '../../shared/hooks/useLanguage';
-import LanguageSwitcher from '../../shared/components/LanguageSwitcher';
 
 const ResetPassword: React.FC = () => {
   const location = useLocation();
@@ -21,6 +20,12 @@ const ResetPassword: React.FC = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
 
+  useEffect(() => {
+    if (!email || !otp) {
+      navigate('/forgot-password');
+    }
+  }, [email, otp, navigate]);
+
   // Return loading state if static data is still loading
   if (staticLoading) {
     return (
@@ -29,12 +34,6 @@ const ResetPassword: React.FC = () => {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (!email || !otp) {
-      navigate('/forgot-password');
-    }
-  }, [email, otp, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -91,9 +90,9 @@ const ResetPassword: React.FC = () => {
       // Thông báo thành công và chuyển đến trang đăng nhập
       alert('Đặt lại mật khẩu thành công! Vui lòng đăng nhập với mật khẩu mới.');
       navigate('/login');
-    } catch (error: any) {
+    } catch (error: unknown) {
       setErrors({
-        general: error.response?.data?.error || 'Đặt lại mật khẩu thất bại. Vui lòng thử lại.'
+        general: error instanceof Error ? error.message : 'Đặt lại mật khẩu thất bại. Vui lòng thử lại.'
       });
     } finally {
       setIsLoading(false);
@@ -118,12 +117,7 @@ const ResetPassword: React.FC = () => {
   const passwordStrength = getPasswordStrength(formData.newPassword);
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">
-      {/* Language Switcher */}
-      <div className="absolute top-6 right-6">
-        <LanguageSwitcher />
-      </div>
-      
+    <div className="min-h-screen flex items-center justify-center p-4 bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 relative">      
       <div className="w-full max-w-md">
         <div className="bg-white rounded-2xl shadow-auth p-8 animate-fade-in">
           <div className="text-center mb-8">
