@@ -27,6 +27,11 @@ export const useMenuPermissions = () => {
   } = useUserPermissions();
   const [availableMenus, setAvailableMenus] = useState<MenuPermission[]>([]);
 
+  // Debug logs
+  console.log('useMenuPermissions - enabledModules:', enabledModules);
+  console.log('useMenuPermissions - loading:', loading);
+  console.log('useMenuPermissions - error:', error);
+
   // Định nghĩa tất cả các menu có thể có trong hệ thống với mapping tới module names từ API
   const allMenus: MenuPermission[] = [
     // Admin Dashboard

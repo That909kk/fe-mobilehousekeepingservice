@@ -89,22 +89,6 @@ function App() {
             } 
           />
           
-          {/* Services Route with Permission Check */}
-          <Route 
-            path="/services" 
-            element={
-              <ProtectedRoute 
-                requiredPermission={{
-                  module: 'SERVICE',
-                  action: 'VIEW', 
-                  resource: 'SERVICE_LIST'
-                }}
-              >
-                <Services />
-              </ProtectedRoute>
-            } 
-          />
-
           {/* Admin Permission Management Route */}
           <Route 
             path="/admin/permissions" 
@@ -117,6 +101,192 @@ function App() {
                 }}
               >
                 <PermissionManagement />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Admin Dashboard Route */}
+          <Route 
+            path="/admin/dashboard" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Admin',
+                  action: 'VIEW', 
+                  resource: 'admin.dashboard.view'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Admin User Management Route */}
+          <Route 
+            path="/admin/users" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Admin',
+                  action: 'MANAGE', 
+                  resource: 'admin.user.manage'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Booking Routes */}
+          <Route 
+            path="/booking/create" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Booking',
+                  action: 'CREATE', 
+                  resource: 'booking.create'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/booking/history" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Booking',
+                  action: 'VIEW', 
+                  resource: 'booking.view.history'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/booking/available" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Booking',
+                  action: 'VIEW', 
+                  resource: 'booking.view.available'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/booking/assigned" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Booking',
+                  action: 'VIEW', 
+                  resource: 'booking.view.assigned'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/booking/accept" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Booking',
+                  action: 'ACCEPT', 
+                  resource: 'booking.accept'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/booking/cancel" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Booking',
+                  action: 'CANCEL', 
+                  resource: 'booking.cancel'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Profile Routes */}
+          <Route 
+            path="/profile/customer" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Account',
+                  action: 'EDIT', 
+                  resource: 'profile.customer.edit'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/profile/employee" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Account',
+                  action: 'EDIT', 
+                  resource: 'profile.employee.edit'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Review Route */}
+          <Route 
+            path="/reviews" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Review',
+                  action: 'CREATE', 
+                  resource: 'review.create'
+                }}
+              >
+                <Dashboard />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Services Route with updated permission check */}
+          <Route 
+            path="/services" 
+            element={
+              <ProtectedRoute 
+                requiredPermission={{
+                  module: 'Service',
+                  action: 'VIEW', 
+                  resource: 'service.view'
+                }}
+              >
+                <Services />
               </ProtectedRoute>
             } 
           />

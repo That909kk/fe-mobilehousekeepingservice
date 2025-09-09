@@ -61,8 +61,29 @@ const RoleSelector: React.FC = () => {
           storage.setItem('roleId', roleId.toString());
           
           try {
-            // Fetch permissions với roleId
-            const permissionsResponse = await permissionService.getRoleDetail(roleId);
+            // Fetch permissions based on user type
+            let permissionsResponse;
+            if ('customerId' in loginResponse.data.data) {
+              permissionsResponse = await permissionService.getCustomerFeatures(loginResponse.data.data.customerId);
+              // Chuyển đổi format để tương thích
+              permissionsResponse = {
+                success: permissionsResponse.data.success,
+                message: permissionsResponse.data.message,
+                data: permissionsResponse.data.data
+              };
+            } else if ('employeeId' in loginResponse.data.data) {
+              permissionsResponse = await permissionService.getEmployeeFeatures(loginResponse.data.data.employeeId);
+              // Chuyển đổi format để tương thích
+              permissionsResponse = {
+                success: permissionsResponse.data.success,
+                message: permissionsResponse.data.message,
+                data: permissionsResponse.data.data
+              };
+            } else if ('adminId' in loginResponse.data.data) {
+              permissionsResponse = await permissionService.getRoleDetail(3); // Admin role ID = 3
+            } else {
+              throw new Error('Unknown user type');
+            }
             
             // Lưu role data vào localStorage để sử dụng trong app
             if (permissionsResponse.success && permissionsResponse.data && permissionsResponse.data.length > 0) {

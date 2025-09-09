@@ -32,14 +32,33 @@ export const useAuth = () => {
         
         // Kiểm tra xem permissions đã được lưu chưa
         const storage = localStorage.getItem('rememberMe') === 'true' ? localStorage : sessionStorage;
-        const savedPermissions = storage.getItem('userPermissions');
+        const savedPermissions = storage.getItem('userRoleData');
         
-        if (!savedPermissions) {
-          // Nếu chưa có permissions trong storage, fetch từ API
+        if (!savedPermissions && user) {
+          // Nếu chưa có permissions trong storage, fetch từ API based on user type
           try {
-            const permissionsResponse = await permissionService.getCurrentUserPermissions();
-            if (permissionsResponse.success && permissionsResponse.data) {
-              storage.setItem('userPermissions', JSON.stringify(permissionsResponse.data));
+            let permissionsResponse;
+            if ('customerId' in user) {
+              permissionsResponse = await permissionService.getCustomerFeatures(user.customerId);
+              permissionsResponse = {
+                success: permissionsResponse.data.success,
+                message: permissionsResponse.data.message,
+                data: permissionsResponse.data.data
+              };
+            } else if ('employeeId' in user) {
+              permissionsResponse = await permissionService.getEmployeeFeatures(user.employeeId);
+              permissionsResponse = {
+                success: permissionsResponse.data.success,
+                message: permissionsResponse.data.message,
+                data: permissionsResponse.data.data
+              };
+            } else if ('adminId' in user) {
+              permissionsResponse = await permissionService.getRoleDetail(3);
+            }
+            
+            if (permissionsResponse?.success && permissionsResponse.data && permissionsResponse.data.length > 0) {
+              const roleData = permissionsResponse.data[0];
+              storage.setItem('userRoleData', JSON.stringify(roleData));
             }
           } catch (permissionError) {
             console.error('Failed to fetch permissions during auth check:', permissionError);

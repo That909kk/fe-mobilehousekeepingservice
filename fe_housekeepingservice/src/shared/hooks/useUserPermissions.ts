@@ -20,6 +20,9 @@ export const useUserPermissions = () => {
     error: null
   });
 
+  console.log('useUserPermissions - current state:', state);
+  console.log('useUserPermissions - authService.isAuthenticated():', authService.isAuthenticated());
+
   // Lấy role data từ storage
   const getStoredRoleData = (): PermissionRole | null => {
     try {
@@ -39,31 +42,57 @@ export const useUserPermissions = () => {
 
   // Lấy permissions từ API
   const fetchUserPermissions = async (): Promise<void> => {
+    console.log('useUserPermissions - fetchUserPermissions called');
     try {
       setState(prev => ({ ...prev, loading: true, error: null }));
       
       const storage = localStorage.getItem('rememberMe') === 'true' ? localStorage : sessionStorage;
-      const roleIdStr = storage.getItem('roleId');
+      const currentUser = JSON.parse(storage.getItem('currentUser') || '{}');
       
-      if (!roleIdStr) {
-        throw new Error('Không tìm thấy roleId');
+      console.log('useUserPermissions - currentUser:', currentUser);
+      
+      let response;
+      if (currentUser && 'adminId' in currentUser) {
+        // Admin - gọi API admin với roleId = 3
+        response = await permissionService.getRoleDetail(3);
+      } else if (currentUser && 'customerId' in currentUser) {
+        // Customer - gọi API customer với customerId
+        const customerResponse = await permissionService.getCustomerFeatures(currentUser.customerId);
+        // Chuyển đổi format để tương thích
+        response = {
+          success: customerResponse.data.success,
+          message: customerResponse.data.message,
+          data: customerResponse.data.data
+        };
+      } else if (currentUser && 'employeeId' in currentUser) {
+        // Employee - gọi API employee với employeeId
+        const employeeResponse = await permissionService.getEmployeeFeatures(currentUser.employeeId);
+        // Chuyển đổi format để tương thích
+        response = {
+          success: employeeResponse.data.success,
+          message: employeeResponse.data.message,
+          data: employeeResponse.data.data
+        };
+      } else {
+        throw new Error('Không tìm thấy thông tin user');
       }
-      
-      const roleId = parseInt(roleIdStr);
-      const response = await permissionService.getRoleDetail(roleId);
       
       if (response.success && response.data.length > 0) {
         const roleData = response.data[0];
         const enabledModules = permissionService.getEnabledModules(roleData);
         
+        console.log('useUserPermissions - API Response:', response);
+        console.log('useUserPermissions - roleData:', roleData);
+        console.log('useUserPermissions - enabledModules:', enabledModules);
+        
         // Lưu vào storage
         storage.setItem('userRoleData', JSON.stringify(roleData));
         
         // Convert sang format Permission cũ nếu cần để tương thích
-        const permissions: Permission[] = roleData.modules.flatMap(module =>
+        const permissions: Permission[] = roleData.modules.flatMap((module: any) =>
           module.features
-            .filter(feature => feature.isEnabled)
-            .map(feature => ({
+            .filter((feature: any) => feature.isEnabled)
+            .map((feature: any) => ({
               permissionId: feature.featureId.toString(),
               permissionName: feature.description,
               description: feature.description,
@@ -84,10 +113,11 @@ export const useUserPermissions = () => {
           error: null
         });
       } else {
+        console.log('useUserPermissions - No data or failed response:', response);
         throw new Error('Không thể lấy thông tin quyền');
       }
     } catch (error) {
-      console.error('Error fetching permissions:', error);
+      console.error('useUserPermissions - Error fetching permissions:', error);
       setState(prev => ({
         ...prev,
         loading: false,
@@ -122,14 +152,17 @@ export const useUserPermissions = () => {
 
   // Load permissions
   useEffect(() => {
-    
     if (authService.isAuthenticated()) {
       // Thử load từ storage trước
       const storedRoleData = getStoredRoleData();
       const storage = localStorage.getItem('rememberMe') === 'true' ? localStorage : sessionStorage;
-      const roleId = storage.getItem('roleId');
+      const currentUser = JSON.parse(storage.getItem('currentUser') || '{}');
       
-      if (storedRoleData) {
+      // Kiểm tra xem user có phải admin không
+      const isAdmin = currentUser && 'adminId' in currentUser;
+      
+      if (storedRoleData && !isAdmin) {
+        // Chỉ sử dụng stored data cho non-admin users
         const enabledModules = permissionService.getEnabledModules(storedRoleData);
         const permissions: Permission[] = storedRoleData.modules.flatMap(module =>
           module.features
@@ -154,8 +187,8 @@ export const useUserPermissions = () => {
           loading: false,
           error: null
         });
-      } else if (roleId) {
-        // Nếu không có roleData nhưng có roleId, fetch từ API
+      } else if (Object.keys(currentUser).length > 0 || isAdmin) {
+        // Nếu không có roleData hoặc user là admin, fetch từ API
         fetchUserPermissions();
       } else {
         setState({
@@ -182,10 +215,11 @@ export const useUserPermissions = () => {
     const checkAndFetchPermissions = () => {
       if (authService.isAuthenticated()) {
         const storage = localStorage.getItem('rememberMe') === 'true' ? localStorage : sessionStorage;
-        const roleId = storage.getItem('roleId');
+        const currentUser = JSON.parse(storage.getItem('currentUser') || '{}');
+        const isAdmin = currentUser && 'adminId' in currentUser;
         
-        // Nếu có roleId nhưng chưa có data trong state, fetch từ API
-        if (roleId && (!state.roleData || state.enabledModules.length === 0)) {
+        // Nếu có user data hoặc là admin nhưng chưa có data trong state, fetch từ API
+        if ((Object.keys(currentUser).length > 0 || isAdmin) && (!state.roleData || state.enabledModules.length === 0)) {
           fetchUserPermissions();
         }
       }
@@ -206,7 +240,7 @@ export const useUserPermissions = () => {
   // Listen for storage changes (khi user login/logout từ tab khác)
   useEffect(() => {
     const handleStorageChange = (e: StorageEvent) => {
-      if (e.key === 'userRoleData' || e.key === 'accessToken' || e.key === 'roleId') {
+      if (e.key === 'userRoleData' || e.key === 'accessToken' || e.key === 'currentUser') {
         if (authService.isAuthenticated()) {
           const storedRoleData = getStoredRoleData();
           if (storedRoleData) {
