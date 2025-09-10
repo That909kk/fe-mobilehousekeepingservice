@@ -1,0 +1,193 @@
+{
+  "vi": {
+    "title": "Đặt Dịch Vụ Gia Đình",
+    "subtitle": "Tìm dịch vụ phù hợp với nhu cầu của bạn",
+    "steps": {
+      "service": {
+        "title": "Chọn Dịch Vụ",
+        "description": "Lựa chọn dịch vụ phù hợp với nhu cầu"
+      },
+      "location": {
+        "title": "Thông Tin Địa Điểm",
+        "description": "Nhập địa chỉ để chúng tôi phục vụ bạn"
+      },
+      "datetime": {
+        "title": "Chọn Thời Gian",
+        "description": "Đặt lịch phù hợp với thời gian rảnh của bạn"
+      },
+      "employee": {
+        "title": "Chọn Nhân Viên",
+        "description": "Lựa chọn nhân viên phù hợp"
+      },
+      "confirmation": {
+        "title": "Xác Nhận Đặt Dịch Vụ",
+        "description": "Kiểm tra thông tin và hoàn tất đặt dịch vụ"
+      }
+    },
+    "buttons": {
+      "previous": "Quay lại",
+      "next": "Tiếp tục",
+      "confirm": "Xác nhận đặt dịch vụ",
+      "retry": "Thử lại",
+      "backToDashboard": "Về Trang Chủ",
+      "selectService": "Chọn dịch vụ này",
+      "selected": "Đã chọn",
+      "useDefault": "Sử dụng địa chỉ mặc định",
+      "select": "Chọn",
+      "addNew": "Nhập địa chỉ mới"
+    },
+    "form": {
+      "address": "Địa chỉ",
+      "addressPlaceholder": "Nhập địa chỉ chi tiết",
+      "district": "Quận/Huyện",
+      "districtPlaceholder": "Chọn quận/huyện",
+      "city": "Thành phố",
+      "cityPlaceholder": "Chọn thành phố",
+      "date": "Ngày",
+      "time": "Giờ",
+      "timePlaceholder": "Chọn giờ phù hợp",
+      "specialRequests": "Yêu cầu đặc biệt",
+      "specialRequestsPlaceholder": "Ghi chú thêm về yêu cầu của bạn..."
+    },
+    "info": {
+      "price": "Giá",
+      "unit": "Đơn vị",
+      "duration": "Thời gian",
+      "contact": "Liên hệ để biết giá",
+      "hours": "giờ",
+      "serviceDetails": "Thông tin dịch vụ",
+      "bookingInfo": "Thông tin đặt dịch vụ"
+    },
+    "messages": {
+      "loading": "Đang tải dịch vụ...",
+      "error": "Có lỗi xảy ra",
+      "noServices": "Chưa có dịch vụ",
+      "noServicesDesc": "Hiện tại chưa có dịch vụ nào được cung cấp.",
+      "processing": "Đang xử lý...",
+      "displayAll": "Hiển thị tất cả dịch vụ",
+      "apiNote": "Hiện tại hiển thị tất cả dịch vụ (API chưa hỗ trợ lọc theo danh mục)",
+      "renderError": "Lỗi hiển thị dịch vụ",
+      "renderErrorDesc": "Không thể hiển thị danh sách dịch vụ. Vui lòng thử lại.",
+      "reloadPage": "Tải lại trang",
+      "selectService": "Vui lòng chọn dịch vụ",
+      "selectAddress": "Vui lòng nhập đầy đủ thông tin địa chỉ", 
+      "selectDateTime": "Vui lòng chọn ngày và giờ",
+      "bookingError": "Có lỗi xảy ra khi đặt dịch vụ",
+      "bookingSuccess": "Đặt dịch vụ thành công!"
+    },
+    "categories": {
+      "title": "Danh mục dịch vụ",
+      "serviceCount": "dịch vụ"
+    },
+    "labels": {
+      "paymentMethod": "Phương thức thanh toán"
+    },
+    "paymentMethods": [
+      {
+        "id": 1,
+        "name": "Thanh toán tiền mặt",
+        "description": "Thanh toán trực tiếp khi hoàn thành dịch vụ"
+      },
+      {
+        "id": 2,
+        "name": "Chuyển khoản ngân hàng", 
+        "description": "Thanh toán qua tài khoản ngân hàng"
+      }
+    ],
+    "timeSlots": [
+      { "value": "08:00", "label": "8:00 AM" },
+      { "value": "09:00", "label": "9:00 AM" },
+      { "value": "10:00", "label": "10:00 AM" },
+      { "value": "11:00", "label": "11:00 AM" },
+      { "value": "13:00", "label": "1:00 PM" },
+      { "value": "14:00", "label": "2:00 PM" },
+      { "value": "15:00", "label": "3:00 PM" },
+      { "value": "16:00", "label": "4:00 PM" },
+      { "value": "17:00", "label": "5:00 PM" }
+    ]
+  },
+  "en": {
+    "title": "Book Home Services",
+    "subtitle": "Find services that suit your needs",
+    "steps": {
+      "service": {
+        "title": "Choose Service",
+        "description": "Select the service that fits your needs"
+      },
+      "location": {
+        "title": "Location Information",
+        "description": "Enter your address for service delivery"
+      },
+      "datetime": {
+        "title": "Choose Time",
+        "description": "Schedule at your convenient time"
+      },
+      "employee": {
+        "title": "Choose Employee",
+        "description": "Select a suitable employee"
+      },
+      "confirmation": {
+        "title": "Confirm Booking",
+        "description": "Review information and complete booking"
+      }
+    },
+    "buttons": {
+      "previous": "Back",
+      "next": "Continue",
+      "confirm": "Confirm Booking",
+      "retry": "Retry",
+      "backToDashboard": "Back to Dashboard",
+      "selectService": "Select this service",
+      "selected": "Selected"
+    },
+    "form": {
+      "address": "Address",
+      "addressPlaceholder": "Enter detailed address",
+      "district": "District",
+      "districtPlaceholder": "Select district",
+      "city": "City",
+      "cityPlaceholder": "Select city",
+      "date": "Date",
+      "time": "Time",
+      "timePlaceholder": "Choose suitable time",
+      "specialRequests": "Special Requests",
+      "specialRequestsPlaceholder": "Additional notes about your requirements..."
+    },
+    "info": {
+      "price": "Price",
+      "unit": "Unit",
+      "duration": "Duration",
+      "contact": "Contact for pricing",
+      "hours": "hours",
+      "serviceDetails": "Service Details",
+      "bookingInfo": "Booking Information"
+    },
+    "messages": {
+      "loading": "Loading services...",
+      "error": "An error occurred",
+      "noServices": "No services available",
+      "noServicesDesc": "No services are currently available.",
+      "processing": "Processing...",
+      "displayAll": "Show all services",
+      "apiNote": "Currently showing all services (API doesn't support category filtering yet)",
+      "renderError": "Service display error",
+      "renderErrorDesc": "Unable to display service list. Please try again.",
+      "reloadPage": "Reload page"
+    },
+    "categories": {
+      "title": "Service Categories",
+      "serviceCount": "services"
+    },
+    "timeSlots": [
+      { "value": "08:00", "label": "8:00 AM" },
+      { "value": "09:00", "label": "9:00 AM" },
+      { "value": "10:00", "label": "10:00 AM" },
+      { "value": "11:00", "label": "11:00 AM" },
+      { "value": "13:00", "label": "1:00 PM" },
+      { "value": "14:00", "label": "2:00 PM" },
+      { "value": "15:00", "label": "3:00 PM" },
+      { "value": "16:00", "label": "4:00 PM" },
+      { "value": "17:00", "label": "5:00 PM" }
+    ]
+  }
+}

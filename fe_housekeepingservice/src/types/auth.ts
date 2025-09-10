@@ -57,6 +57,7 @@ export interface CustomerData {
   isMale: boolean;
   status: UserStatus;
   address: string;
+  role: 'CUSTOMER';
 }
 
 export interface EmployeeData {
@@ -69,6 +70,7 @@ export interface EmployeeData {
   isMale: boolean;
   status: UserStatus;
   address: string;
+  role: 'EMPLOYEE';
 }
 
 export interface AdminData {
@@ -80,6 +82,7 @@ export interface AdminData {
   department: string;
   contactInfo: string;
   hireDate: string;
+  role: 'ADMIN';
 }
 
 // Password related interfaces

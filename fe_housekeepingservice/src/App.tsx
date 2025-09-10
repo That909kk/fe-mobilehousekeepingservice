@@ -8,7 +8,12 @@ import ResetPassword from './components/auth/ResetPassword';
 import RoleSelector from './components/auth/RoleSelector';
 import Dashboard from './components/Dashboard';
 import Services from './components/Services';
+import BookingFlow from './components/booking/BookingFlow';
+import BookingErrorBoundary from './components/booking/BookingErrorBoundary';
+import BookingSuccess from './components/booking/BookingSuccess';
+import BookingHistory from './components/booking/BookingHistory';
 import PermissionManagement from './components/admin/PermissionManagement';
+import DebugUserInfo from './components/DebugUserInfo';
 import ProtectedRoute from './shared/components/ProtectedRoute';
 import { useAuth } from './shared/hooks/useAuth';
 import './App.css';
@@ -139,6 +144,30 @@ function App() {
 
           {/* Booking Routes */}
           <Route 
+            path="/booking" 
+            element={
+              <ProtectedRoute 
+                requiredRoles={['CUSTOMER']}
+              >
+                <BookingErrorBoundary>
+                  <BookingFlow />
+                </BookingErrorBoundary>
+              </ProtectedRoute>
+            } 
+          />
+
+          <Route 
+            path="/booking/success" 
+            element={
+              <ProtectedRoute 
+                requiredRoles={['CUSTOMER']}
+              >
+                <BookingSuccess />
+              </ProtectedRoute>
+            } 
+          />
+          
+          <Route 
             path="/booking/create" 
             element={
               <ProtectedRoute 
@@ -157,13 +186,9 @@ function App() {
             path="/booking/history" 
             element={
               <ProtectedRoute 
-                requiredPermission={{
-                  module: 'Booking',
-                  action: 'VIEW', 
-                  resource: 'booking.view.history'
-                }}
+                requiredRoles={['CUSTOMER']}
               >
-                <Dashboard />
+                <BookingHistory />
               </ProtectedRoute>
             } 
           />
@@ -287,6 +312,16 @@ function App() {
                 }}
               >
                 <Services />
+              </ProtectedRoute>
+            } 
+          />
+
+          {/* Debug Route */}
+          <Route 
+            path="/debug" 
+            element={
+              <ProtectedRoute>
+                <DebugUserInfo />
               </ProtectedRoute>
             } 
           />

@@ -64,5 +64,16 @@ export const serviceService = {
     
     const response = await apiClient.get<ServiceResponse>(url);
     return response.data;
+  },
+
+  // Wrapper cho getAllServices để tương thích
+  getServices: async (params?: ServiceSearchParams): Promise<ServiceResponse> => {
+    return serviceService.getAllServices(params);
+  },
+
+  // GET /api/v1/customer/services/{serviceId}/options - Lấy tùy chọn của dịch vụ
+  getServiceOptions: async (serviceId: string) => {
+    const response = await apiClient.get(`/customer/services/${serviceId}/options`);
+    return response.data;
   }
 };

@@ -1,5 +1,6 @@
 // Export tất cả các services
 export { authService } from './authService';
+export { bookingService } from './bookingService';
 export { categoryService } from './categoryService';
 export { serviceService } from './serviceService';
 export { scheduleService } from './scheduleService';

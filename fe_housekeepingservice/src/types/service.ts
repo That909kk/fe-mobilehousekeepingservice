@@ -13,6 +13,17 @@ export interface Service {
   updatedAt: string;
 }
 
+// API response structure (what we actually get from API)
+export interface ApiService {
+  serviceId: number;
+  name: string;
+  description: string;
+  basePrice: number;
+  unit: string;
+  estimatedDurationHours: number;
+  isActive: boolean;
+}
+
 export interface ServiceCategory {
   categoryId: string;
   categoryName: string;
